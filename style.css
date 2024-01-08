@@ -1,0 +1,128 @@
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: lightgreen;
+    color: blue;
+    text-align: center;
+    padding: 15px 0;
+}
+
+#mario {
+    position: absolute;
+    top: 17px;
+    right: 30px;
+    width: 80px;
+}
+
+#console1 {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    width: 100px;
+
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.game-section,
+.product {
+    width: 30%;
+}
+
+.game-section,
+.product {
+    box-sizing: border-box;
+    margin: 20px;
+    padding: 20px;
+}
+
+#logo {
+    position: absolute;
+    align-items: center;
+    top: 440px;
+    left: 630px;
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.game-section,
+.product {
+    background-color: lemonchiffon;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.game-section:hover,
+.product:hover {
+    transform: scale(1.05);
+}
+
+/* Mídia para dispositivos móveis */
+
+@media (max-width: 768px) {
+    .game-section,
+    .product {
+        width: 100%;
+    }
+
+    #jogos {
+        position: static;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #logo {
+        position: static;
+        transform: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #console1 {
+        width: 100px;
+        position: absolute;
+        left: -10px;
+    }
+
+    #mario {
+        width: 90px;
+        position: absolute;
+        right: 8px;
+        top: 0px;
+    }
+}

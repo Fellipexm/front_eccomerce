@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consoles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
+</head>
+
+<body>
+    <a href="index.html">  <img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <div class="container">
+        <h1>Nossos Consoles</h1>
+        <div>
+            <label for="filterInput">Filtrar por Nome:</label>
+            <input type="text" id="filterInput">
+            <button onclick="filterConsoles()">Filtrar</button>
+        </div>
+        <div id="gameList" class="card-container"></div>
+    </div>
+
+    <script>
+        let allConsoles = [];
+
+        document.addEventListener("DOMContentLoaded", function () {
+            loadConsoles();
+        });
+
+        function loadConsoles() {
+            const gameListContainer = document.getElementById("gameList");
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3000/consoles", true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    allConsoles = JSON.parse(xhr.responseText);
+                    displayConsoles(allConsoles);
+                }
+            };
+
+            xhr.send();
+        }
+
+        function filterConsoles() {
+            const filterValue = document.getElementById("filterInput").value.toLowerCase();
+            const filteredConsoles = allConsoles.filter(console => console.nome_do_console.toLowerCase().includes(filterValue));
+            displayConsoles(filteredConsoles);
+        }
+
+        function displayConsoles(consoles) {
+            const gameListContainer = document.getElementById("gameList");
+            gameListContainer.innerHTML = '';
+
+            consoles.forEach(consoleData => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+
+                const title = document.createElement("h2");
+                title.textContent = consoleData.nome_do_console;
+
+                const description = document.createElement("p");
+                description.textContent = consoleData.descriçao;
+
+                const price = document.createElement("p");
+                price.textContent = `Preço: $${parseFloat(consoleData.preço).toFixed(2)}`;
+
+                const image = document.createElement("img");
+                image.src = consoleData.imagem;
+                image.alt = consoleData.nome_do_console;
+
+                card.appendChild(title);
+                card.appendChild(description);
+                card.appendChild(price);
+                card.appendChild(image);
+
+                gameListContainer.appendChild(card);
+            });
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        #volte {
+            position: absolute;
+            top:50px;
+            left: 300px;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 600px) {
+            .card-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .card {
+                flex: 1 1 45%;
+            }
+        }
+    </style>
+</body>
+
+</html>
