@@ -10,7 +10,9 @@
 </head>
 
 <body>
-    <a href="https://front-eccomerce.vercel.app/">  <img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <div class="mobile-logo">
+        <a href="https://front-eccomerce.vercel.app/"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    </div>
     <div class="container">
         <h1>Nossos Consoles</h1>
         <div>
@@ -18,25 +20,26 @@
             <input type="text" id="filterInput">
             <button onclick="filterConsoles()">Filtrar</button>
         </div>
-        <div id="gameList" class="card-container"></div>
+        <div id="consoleList" class="card-container"></div>
     </div>
 
     <script>
-        let allConsoles = [];
+        let consoles = [];
 
         document.addEventListener("DOMContentLoaded", function () {
             loadConsoles();
         });
 
         function loadConsoles() {
-            const gameListContainer = document.getElementById("gameList");
+            const consoleListContainer = document.getElementById("consoleList");
+
             const xhr = new XMLHttpRequest();
             xhr.open("GET", "http://localhost:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    allConsoles = JSON.parse(xhr.responseText);
-                    displayConsoles(allConsoles);
+                    consoles = JSON.parse(xhr.responseText);
+                    displayConsoles(consoles);
                 }
             };
 
@@ -45,13 +48,13 @@
 
         function filterConsoles() {
             const filterValue = document.getElementById("filterInput").value.toLowerCase();
-            const filteredConsoles = allConsoles.filter(console => console.nome_do_console.toLowerCase().includes(filterValue));
+            const filteredConsoles = consoles.filter(console => console.nome_do_console.toLowerCase().includes(filterValue));
             displayConsoles(filteredConsoles);
         }
 
         function displayConsoles(consoles) {
-            const gameListContainer = document.getElementById("gameList");
-            gameListContainer.innerHTML = '';
+            const consoleListContainer = document.getElementById("consoleList");
+            consoleListContainer.innerHTML = '';
 
             consoles.forEach(consoleData => {
                 const card = document.createElement("div");
@@ -64,7 +67,7 @@
                 description.textContent = consoleData.descriçao;
 
                 const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(consoleData.preço).toFixed(2)}`;
+                price.textContent = `Preço: $${parseFloat(consoleData.valor).toFixed(2)}`;
 
                 const image = document.createElement("img");
                 image.src = consoleData.imagem;
@@ -75,7 +78,7 @@
                 card.appendChild(price);
                 card.appendChild(image);
 
-                gameListContainer.appendChild(card);
+                consoleListContainer.appendChild(card);
             });
         }
     </script>
@@ -102,11 +105,6 @@
             color: #333;
         }
 
-        .filter-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         label {
             font-size: 16px;
             margin-right: 10px;
@@ -128,6 +126,12 @@
             cursor: pointer;
         }
 
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
         .card {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -136,6 +140,7 @@
             text-align: center;
             background-color: #fff;
             transition: transform 0.3s ease-in-out;
+            width: 200px;
         }
 
         .card:hover {
@@ -148,22 +153,18 @@
             border-radius: 8px;
         }
 
+        .mobile-logo {
+            text-align: center;
+            margin: 10px;
+        }
+
         #volte {
-            position: absolute;
-            top:50px;
-            left: 300px;
-            width: 100px;
-            height: 100px;
+            width: 80px; /* Adjust the size as needed */
+            height: 80px; /* Adjust the size as needed */
             cursor: pointer;
         }
 
         @media screen and (max-width: 600px) {
-            .card-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
             .card {
                 flex: 1 1 45%;
             }
