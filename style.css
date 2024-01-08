@@ -1,5 +1,3 @@
-
-
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -26,7 +24,6 @@ header {
     top: 10px;
     left: 30px;
     width: 100px;
-
 }
 
 main {
@@ -39,10 +36,6 @@ main {
 .game-section,
 .product {
     width: 30%;
-}
-
-.game-section,
-.product {
     box-sizing: border-box;
     margin: 20px;
     padding: 20px;
@@ -53,6 +46,10 @@ main {
     align-items: center;
     top: 440px;
     left: 630px;
+}
+
+.sobre-nos-content {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .button {
@@ -99,7 +96,7 @@ main {
         width: 100%;
     }
 
-    #jogos {
+    #games {
         position: static;
         width: 100%;
         text-align: center;

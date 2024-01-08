@@ -10,73 +10,73 @@
 </head>
 
 <body>
-   <a href="https://front-eccomerce.vercel.app/">  <img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <a href="https://front-eccomerce.vercel.app/"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
     <div class="container">
-        <h1>Nossos Acessórios</h1>
+        <h1>Nossos Jogos</h1>
         <div>
             <label for="filterInput">Filtrar por Nome:</label>
             <input type="text" id="filterInput">
-            <button onclick="filterAccessories()">Filtrar</button>
+            <button onclick="filterGames()">Filtrar</button>
         </div>
-        <div id="accessoryList" class="card-container"></div>
+        <div id="gameList" class="card-container"></div>
     </div>
 
     <script>
+        let games = []; // Declaração global da variável games
+
         document.addEventListener("DOMContentLoaded", function () {
-            loadAccessories();
+            loadGames();
         });
 
-        function loadAccessories() {
-            const accessoryListContainer = document.getElementById("accessoryList");
+        function loadGames() {
+            const gameListContainer = document.getElementById("gameList");
 
-            // Fazer uma solicitação AJAX para obter dados do seu backend (supondo uma API REST)
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://localhost:3000/acessorios", true);
+            xhr.open("GET", "http://localhost:3000/games", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    const accessories = JSON.parse(xhr.responseText);
-
-                    displayAccessories(accessories);
+                    games = JSON.parse(xhr.responseText);
+                    displayGames(games);
                 }
             };
 
             xhr.send();
         }
 
-        function filterAccessories() {
+        function filterGames() {
             const filterValue = document.getElementById("filterInput").value.toLowerCase();
-            const filteredAccessories = accessories.filter(accessory => accessory.nome_do_ascessorio.toLowerCase().includes(filterValue));
-            displayAccessories(filteredAccessories);
+            const filteredGames = games.filter(game => game.nome_do_jogo.toLowerCase().includes(filterValue));
+            displayGames(filteredGames);
         }
 
-        function displayAccessories(accessories) {
-            const accessoryListContainer = document.getElementById("accessoryList");
-            accessoryListContainer.innerHTML = '';
+        function displayGames(games) {
+            const gameListContainer = document.getElementById("gameList");
+            gameListContainer.innerHTML = '';
 
-            accessories.forEach(accessoryData => {
+            games.forEach(gameData => {
                 const card = document.createElement("div");
                 card.classList.add("card");
 
                 const title = document.createElement("h2");
-                title.textContent = accessoryData.nome_do_ascessorio;
+                title.textContent = gameData.nome_do_jogo;
 
                 const description = document.createElement("p");
-                description.textContent = accessoryData.descriçao;
+                description.textContent = gameData.descriçaol;
 
                 const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(accessoryData.preço).toFixed(2)}`;
+                price.textContent = `Preço: $${parseFloat(gameData.valor).toFixed(2)}`;
 
                 const image = document.createElement("img");
-                image.src = accessoryData.imagem;
-                image.alt = accessoryData.nome_do_ascessorio;
+                image.src = gameData.imagem;
+                image.alt = gameData.nome_do_jogo;
 
                 card.appendChild(title);
                 card.appendChild(description);
                 card.appendChild(price);
                 card.appendChild(image);
 
-                accessoryListContainer.appendChild(card);
+                gameListContainer.appendChild(card);
             });
         }
     </script>
