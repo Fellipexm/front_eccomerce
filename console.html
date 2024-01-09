@@ -4,72 +4,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acessórios</title>
+    <title>Consoles</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
 </head>
 
 <body>
-    <a href="https://front-eccomerce.vercel.app/"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <div class="mobile-logo">
+        <a href="home.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    </div>
     <div class="container">
-        <h1>Nossos Acessórios</h1>
+        <h1>Nossos Consoles</h1>
         <div>
-            <label for="filterInput">Pesquisar ascessorio</label>
+            <label for="filterInput">Pesquisar Console:</label>
             <input type="text" id="filterInput">
-            <button onclick="filterAccessories()">Filtrar</button>
+            <button onclick="filterConsoles()">Filtrar</button>
         </div>
-        <div id="accessoryList" class="card-container"></div>
+        <div id="consoleList" class="card-container"></div>
     </div>
 
     <script>
-        let accessories = []; // Variável global para armazenar os acessórios
+        let consoles = [];
 
         document.addEventListener("DOMContentLoaded", function () {
-            loadAccessories();
+            loadConsoles();
         });
 
-        function loadAccessories() {
-            const accessoryListContainer = document.getElementById("accessoryList");
+        function loadConsoles() {
+            const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://192.168.15.9:3000/acessorios", true);
+            xhr.open("GET", "http://172.16.31.43:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    accessories = JSON.parse(xhr.responseText);
-                    displayAccessories(accessories);
+                    consoles = JSON.parse(xhr.responseText);
+                    displayConsoles(consoles);
                 }
             };
 
             xhr.send();
         }
 
-        function filterAccessories() {
+        function filterConsoles() {
             const filterValue = document.getElementById("filterInput").value.toLowerCase();
-            const filteredAccessories = accessories.filter(accessory => accessory.nome_do_ascessorio.toLowerCase().includes(filterValue));
-            displayAccessories(filteredAccessories);
+            const filteredConsoles = consoles.filter(console => console.nome_do_console.toLowerCase().includes(filterValue));
+            displayConsoles(filteredConsoles);
         }
 
-        function displayAccessories(accessories) {
-            const accessoryListContainer = document.getElementById("accessoryList");
-            accessoryListContainer.innerHTML = '';
+        function displayConsoles(consoles) {
+            const consoleListContainer = document.getElementById("consoleList");
+            consoleListContainer.innerHTML = '';
 
-            accessories.forEach(accessoryData => {
+            consoles.forEach(consoleData => {
                 const card = document.createElement("div");
                 card.classList.add("card");
 
                 const title = document.createElement("h2");
-                title.textContent = accessoryData.nome_do_ascessorio;
+                title.textContent = consoleData.nome_do_console;
 
                 const description = document.createElement("p");
-                description.textContent = accessoryData.descriçao;
+                description.textContent = consoleData.descriçao;
 
                 const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(accessoryData.valor).toFixed(2)}`;
+                price.textContent = `Preço: $${parseFloat(consoleData.valor).toFixed(2)}`;
 
                 const image = document.createElement("img");
-                image.src = accessoryData.imagem;
-                image.alt = accessoryData.nome_do_ascessorio;
+                image.src = consoleData.imagem;
+                image.alt = consoleData.nome_do_console;
 
                 // Add to Cart button
                 const addToCartButton = document.createElement("button");
@@ -87,21 +89,21 @@
                 card.appendChild(image);
                 card.appendChild(addToCartButton);
 
-                accessoryListContainer.appendChild(card);
+                consoleListContainer.appendChild(card);
             });
         }
     </script>
 
     <style>
         body {
-            background: linear-gradient(to right, #d3d3d3 50%, #ffdab9 50%);
+            background: linear-gradient(to right, #e0e0e0 50%, #ffd699 50%);
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            color: #333; /* Cor de texto mais escura para contraste */
         }
         
         
-
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -204,4 +206,3 @@
 </body>
 
 </html>
-s

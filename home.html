@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/logo1.png">
+</head>
+
+<body>
+    <header>
+        <h1>Game Store</h1>
+        <img src="assets/mario-removebg-preview.png" alt="marios" id="mario">
+        <img src="assets/ps5-removebg-preview.png" alt="marios" id="console1">
+    </header>
+    <div class="carousel-container">
+        <img src="assets/logo1.png" alt="gamestore" id="logo">
+    </div>
+    <main>
+         <section id="user-welcome" class="game-section">
+            <h2>Bem-vindo, <span id="username"></span>!</h2>
+            <div class="sobre-nos-content">
+                <p>
+                    Querido amigo(a) <span id="username"></span>, sua presença ilumina nossa loja! 🌟 Explore as últimas
+                    novidades, entregue-se ao encanto e divirta-se em cada detalhe. Estamos aqui para tornar sua
+                    experiência única e inesquecível. 💖✨
+                </p>
+                <div id="games-products" class="products"></div>
+            </div>
+        </section>
+        </section>
+
+        <section id="games" class="game-section">
+            <h2><a href="games.html" onclick="loadGamesPage()">Jogos</a></h2>
+            <div class="sobre-nos-content">
+                <p>
+
+
+                    Explore nosso paraíso gamer! Nossa loja oferece uma ampla seleção de jogos, desde clássicos
+                    atemporais até lançamentos emocionantes. Descubra mundos fascinantes, encare desafios intrigantes e
+                    mergulhe em narrativas envolventes. Seja fã de ação, aventura ou estratégia, temos o jogo perfeito
+                    para você. Descubra as últimas novidades, garanta prévias exclusivas e junte-se a uma comunidade
+                    apaixonada por games. Na nossa loja, a diversão é garantida e a próxima grande aventura está prestes
+                    a começar. Prepare-se para jogar, competir e se emocionar no universo dos games!
+
+                </p>
+                <div id="games-products" class="products"></div>
+        </section>
+
+        <section id="consoles" class="game-section">
+            <h2><a href="console.html">Consoles</a></h2>
+            <div class="sobre-nos-content">
+                <p>
+                    Explore a nossa seleção de consoles de última geração, proporcionando gráficos impressionantes e
+                    jogabilidade envolvente. Dos consoles mais populares aos lançamentos mais recentes, temos o
+                    dispositivo perfeito para levar sua experiência de jogo a novos patamares. Desfrute da praticidade
+                    de jogar seus títulos favoritos diretamente do seu console e mergulhe em mundos virtuais cheios de
+                    aventuras. Prepare-se para horas de entretenimento ininterrupto - na nossa loja, os consoles que
+                    você sempre desejou estão ao seu alcance. O próximo nível de diversão começa aqui!
+
+                </p>
+                <div id="consoles-products" class="products"></div>
+        </section>
+        <section id="accessories" class="game-section">
+            <h2><a href="ascessorios.html">Acessórios</a></h2>
+            <div class="sobre-nos-content">
+                <p>
+                    Explore o universo gamer com os melhores acessórios diretamente no seu cartão! Em nossa loja, cada
+                    clique representa uma jogada estratégica para a vitória. Mergulhe na experiência completa com
+                    teclados iluminados, mouses de alta precisão e headsets imersivos, tudo a um clique de distância.
+                    Desfrute da conveniência e da emoção de aprimorar sua configuração com os melhores acessórios
+                    gamers, agora disponíveis no seu cartão de preferência. Eleve seu jogo com estilo e tecnologia,
+                    porque na nossa loja, a vitória está sempre ao seu alcance.
+                </p>
+            </div>
+            <div id="accessories-products" class="products"></div>
+        </section>
+
+        <section id="sobre-nos" class="game-section">
+            <h2>Sobre Nós</h2>
+            <div class="sobre-nos-content">
+                <p>
+                    Bem-vindo à "Game Store", sua loja virtual definitiva para tudo relacionado a jogos! Explore nosso
+                    vasto
+                    catálogo de jogos, consoles e acessórios, com ofertas especiais e descontos exclusivos. Priorizamos
+                    sua
+                    conveniência e segurança, proporcionando uma experiência de compra fácil e protegida. Além de uma
+                    loja, somos
+                    uma comunidade gamer, oferecendo interatividade, discussões e eventos exclusivos. Junte-se a nós na
+                    "Game
+                    Store", onde a diversão e a paixão pelos jogos se encontram!
+                </p>
+            </div>
+        </section>
+    </main>
+    <script src="pages/script.js"></script>
+    <script>
+        // Função para obter parâmetros da URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Obter o nome de usuário dos parâmetros da URL
+        var username = getParameterByName('username');
+
+        // Atualizar o conteúdo da página com o nome de usuário
+        document.getElementById('username').innerText = username;
+    </script>
+</body>
+
+</html>

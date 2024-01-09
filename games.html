@@ -10,13 +10,13 @@
 </head>
 
 <body>
-    <a href="https://front-eccomerce.vercel.app/"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <a href="home.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
     <div class="container">
         <h1>Nossos Jogos</h1>
         <div>
             <label for="filterInput">Pesquisar Console:</label>
             <input type="text" id="filterInput">
-            <button onclick="filterGames()">Filtrar</button>
+            <button onclick="filterGames()" id="filto">Filtrar</button>
         </div>
         <div id="gameList" class="card-container"></div>
     </div>
@@ -32,7 +32,7 @@
             const gameListContainer = document.getElementById("gameList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://192.168.15.9:3000/games", true);
+            xhr.open("GET", "http://172.16.31.43:3000/games", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -196,6 +196,12 @@
         @media screen and (max-width: 600px) {
             .card {
                 flex: 1 1 45%;
+            }
+
+            #gameList {
+                align-items: center;
+                top: 100px;
+
             }
         }
     </style>

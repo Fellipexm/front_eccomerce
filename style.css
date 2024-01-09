@@ -56,7 +56,7 @@ main {
 #logo {
     position: absolute;
     align-items: center;
-    top: 440px;
+    top: 730px;
     left: 630px;
 }
 
@@ -118,9 +118,9 @@ main {
     #logo {
         position: absolute;
         transform: none;
-        left: -80px;
+        left: -70px;
         margin-top: 20px;
-        top: 900px;
+        top: 2050px;
     }
 
     #console1 {
