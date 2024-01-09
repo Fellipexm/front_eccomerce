@@ -10,73 +10,73 @@
 </head>
 
 <body>
-    <a href="https://front-eccomerce.vercel.app/">  <img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+    <a href="https://front-eccomerce.vercel.app/"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
     <div class="container">
         <h1>Nossos Acessórios</h1>
         <div>
             <label for="filterInput">Filtrar por Nome:</label>
             <input type="text" id="filterInput">
-            <button onclick="filterAcessorios()">Filtrar</button>
+            <button onclick="filterAccessories()">Filtrar</button>
         </div>
-        <div id="acessoriosList" class="card-container"></div>
+        <div id="accessoryList" class="card-container"></div>
     </div>
 
     <script>
+        let accessories = []; // Variável global para armazenar os acessórios
+
         document.addEventListener("DOMContentLoaded", function () {
-            loadAcessorios();
+            loadAccessories();
         });
 
-        function loadAcessorios() {
-            const acessoriosListContainer = document.getElementById("acessoriosList");
+        function loadAccessories() {
+            const accessoryListContainer = document.getElementById("accessoryList");
 
-            // Fazer uma solicitação AJAX para obter dados do seu backend (supondo uma API REST)
             const xhr = new XMLHttpRequest();
             xhr.open("GET", "http://localhost:3000/acessorios", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    const acessorios = JSON.parse(xhr.responseText);
-
-                    displayAcessorios(acessorios);
+                    accessories = JSON.parse(xhr.responseText);
+                    displayAccessories(accessories);
                 }
             };
 
             xhr.send();
         }
 
-        function filterAcessorios() {
+        function filterAccessories() {
             const filterValue = document.getElementById("filterInput").value.toLowerCase();
-            const filteredAcessorios = acessorios.filter(acessorio => acessorio.nome.toLowerCase().includes(filterValue));
-            displayAcessorios(filteredAcessorios);
+            const filteredAccessories = accessories.filter(accessory => accessory.nome_do_ascessorio.toLowerCase().includes(filterValue));
+            displayAccessories(filteredAccessories);
         }
 
-        function displayAcessorios(acessorios) {
-            const acessoriosListContainer = document.getElementById("acessoriosList");
-            acessoriosListContainer.innerHTML = '';
+        function displayAccessories(accessories) {
+            const accessoryListContainer = document.getElementById("accessoryList");
+            accessoryListContainer.innerHTML = '';
 
-            acessorios.forEach(acessorioData => {
+            accessories.forEach(accessoryData => {
                 const card = document.createElement("div");
                 card.classList.add("card");
 
                 const title = document.createElement("h2");
-                title.textContent = acessorioData.nome; // Ajuste aqui para refletir a propriedade correta
+                title.textContent = accessoryData.nome_do_ascessorio;
 
                 const description = document.createElement("p");
-                description.textContent = acessorioData.descricao; // Ajuste aqui para refletir a propriedade correta
+                description.textContent = accessoryData.descriçao;
 
                 const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(acessorioData.preco).toFixed(2)}`;
+                price.textContent = `Preço: $${parseFloat(accessoryData.valor).toFixed(2)}`;
 
                 const image = document.createElement("img");
-                image.src = acessorioData.imagem;
-                image.alt = acessorioData.nome;
+                image.src = accessoryData.imagem;
+                image.alt = accessoryData.nome_do_ascessorio;
 
                 card.appendChild(title);
                 card.appendChild(description);
                 card.appendChild(price);
                 card.appendChild(image);
 
-                acessoriosListContainer.appendChild(card);
+                accessoryListContainer.appendChild(card);
             });
         }
     </script>
@@ -103,11 +103,6 @@
             color: #333;
         }
 
-        .filter-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
         label {
             font-size: 16px;
             margin-right: 10px;
@@ -129,6 +124,12 @@
             cursor: pointer;
         }
 
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
         .card {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -137,6 +138,7 @@
             text-align: center;
             background-color: #fff;
             transition: transform 0.3s ease-in-out;
+            width: 200px;
         }
 
         .card:hover {
@@ -149,26 +151,23 @@
             border-radius: 8px;
         }
 
+        .mobile-logo {
+            text-align: center;
+            margin: 10px;
+        }
+
         #volte {
-            position: absolute;
-            top:50px;
-            left: 300px;
-            width: 100px;
-            height: 100px;
+            width: 80px; /* Adjust the size as needed */
+            height: 80px; /* Adjust the size as needed */
             cursor: pointer;
         }
 
         @media screen and (max-width: 600px) {
-            .card-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
             .card {
                 flex: 1 1 45%;
             }
         }
+        
     </style>
 </body>
 

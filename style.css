@@ -104,10 +104,11 @@ main {
     }
 
     #logo {
-        position: static;
+        position: absolute;
         transform: none;
-        text-align: center;
+        left: -80px;
         margin-top: 20px;
+        top: 900px;
     }
 
     #console1 {
@@ -122,4 +123,6 @@ main {
         right: 8px;
         top: 0px;
     }
+    
+ 
 }
