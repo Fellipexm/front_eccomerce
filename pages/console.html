@@ -34,7 +34,7 @@
             const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://localhost:3000/consoles", true);
+            xhr.open("GET", "http://192.168.15.9:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {

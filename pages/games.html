@@ -32,7 +32,7 @@
             const gameListContainer = document.getElementById("gameList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://localhost:3000/games", true);
+            xhr.open("GET", "http://192.168.15.9:3000/games", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
