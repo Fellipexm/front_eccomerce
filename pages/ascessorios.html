@@ -14,7 +14,7 @@
     <div class="container">
         <h1>Nossos Acessórios</h1>
         <div>
-            <label for="filterInput">Filtrar por Nome:</label>
+            <label for="filterInput">Pesquisar ascessorio</label>
             <input type="text" id="filterInput">
             <button onclick="filterAccessories()">Filtrar</button>
         </div>
@@ -71,10 +71,21 @@
                 image.src = accessoryData.imagem;
                 image.alt = accessoryData.nome_do_ascessorio;
 
+                // Add to Cart button
+                const addToCartButton = document.createElement("button");
+                addToCartButton.textContent = "Adicionar ao Carrinho";
+                addToCartButton.classList.add("add-to-cart-button");
+
+                // Add an event listener or link it to your cart functionality
+                // addToCartButton.addEventListener("click", function() {
+                //     // Your logic to add to cart
+                // });
+
                 card.appendChild(title);
                 card.appendChild(description);
                 card.appendChild(price);
                 card.appendChild(image);
+                card.appendChild(addToCartButton);
 
                 accessoryListContainer.appendChild(card);
             });
@@ -96,11 +107,15 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Center text within the container */
         }
 
         h1 {
-            text-align: center;
             color: #333;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
         }
 
         label {
@@ -122,6 +137,22 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+        }
+
+        .add-to-cart-button {
+            margin-top: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .add-to-cart-button:hover {
+            background-color: #218838;
         }
 
         .card-container {
@@ -157,8 +188,8 @@
         }
 
         #volte {
-            width: 80px; /* Adjust the size as needed */
-            height: 80px; /* Adjust the size as needed */
+            width: 80px;
+            height: 80px;
             cursor: pointer;
         }
 
@@ -167,8 +198,8 @@
                 flex: 1 1 45%;
             }
         }
-        
     </style>
 </body>
 
 </html>
+s
