@@ -31,8 +31,20 @@ main {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    color: black;
 }
 
+#games {
+    background-color: lightgreen;
+}
+
+#consoles {
+    background-color: lightsalmon;
+}
+
+#accessories {
+    background-color: lightblue;
+}
 .game-section,
 .product {
     width: 30%;
