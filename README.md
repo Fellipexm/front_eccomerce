@@ -1,1 +1,1 @@
-Este e o sistema de eccomerce que estoui produzindo
+Este é o sistema de e-commerce que estou produzindo.
