@@ -11,7 +11,7 @@
 
 <body>
     <div class="mobile-logo">
-        <a href="home.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+        <a href="index.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
     </div>
     <div class="container">
         <h1>Nossos Consoles</h1>
@@ -34,7 +34,7 @@
             const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://172.16.31.43:3000/consoles", true);
+            xhr.open("GET", "http://192.168.15.9:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
