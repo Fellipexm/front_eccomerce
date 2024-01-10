@@ -56,7 +56,7 @@ main {
 #logo {
     position: absolute;
     align-items: center;
-    top: 780px;
+    top: 1100px;
     left: 700px;
 }
 
@@ -152,6 +152,43 @@ main {
     width: 130px;
 
 }
+
+#user-rating {
+    position: relative;
+    top: 530px;
+    left: 620px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Ajuste a largura conforme necessário */
+}
+
+#user-rating label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#user-rating textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+#user-rating button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#user-rating button:hover {
+    background-color: #45a049;
+}
+
 @media (max-width: 768px) {
     .game-section,
     .product {
@@ -207,6 +244,12 @@ main {
         left: 173px;
         background-color: red;
     
+    }
+
+    #user-rating {
+        position: relative;
+        top: 10px ;
+        left: -10px;
     }
     
 }

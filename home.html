@@ -19,25 +19,28 @@
         <img src="assets/logo1.png" alt="gamestore" id="logo">
     </div>
     <div class="login">
-       
-        <a href="index.html" id="sair" class="button">Sair</a>
     </div>
     <main>
-         <section id="user-welcome" class="game-section">
+        <section id="user-welcome" class="game-section">
             <h2>Bem-vindo, <span id="username"></span>!</h2>
             <div class="sobre-nos-content">
-    
                 <p>
                     Querido amigo(a) <span id="username">,</span> sua presença ilumina nossa loja! 🌟 Explore as últimas
                     novidades, entregue-se ao encanto e divirta-se em cada detalhe. Estamos aqui para tornar sua
                     experiência única e inesquecível. 💖✨
-                
+
                 </p>
 
                 <img src="https://i.postimg.cc/XqvYJx2f/bem-vinsdo-removebg-preview.png" style="width: 300px;">
                 <div id="games-products" class="products"></div>
+
+                <!-- Adicionando o campo de avaliação -->
+                <div id="user-rating">
+                    <label for="userReview">Deixe sua avaliação, <span id="usernameInReview"></span>:</label>
+                    <textarea id="userReview" rows="4" cols="50"></textarea>
+                    <button onclick="submitReview()">Enviar Avaliação</button>
+                </div>
             </div>
-        </section>
         </section>
 
         <section id="games" class="game-section">
@@ -45,8 +48,6 @@
             <div class="sobre-nos-content">
                 <p> Clique no Ícone⬆️</p><br>
                 <p>
-
-
                     Explore nosso paraíso gamer! Nossa loja oferece uma ampla seleção de jogos, desde clássicos
                     atemporais até lançamentos emocionantes. Descubra mundos fascinantes, encare desafios intrigantes e
                     mergulhe em narrativas envolventes. Seja fã de ação, aventura ou estratégia, temos o jogo perfeito
@@ -56,6 +57,7 @@
 
                 </p>
                 <div id="games-products" class="products"></div>
+            </div>
         </section>
 
         <section id="consoles" class="game-section">
@@ -72,7 +74,9 @@
 
                 </p>
                 <div id="consoles-products" class="products"></div>
+            </div>
         </section>
+
         <section id="accessories" class="game-section">
             <a href="carrinho.html"><img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho"></a>
             <div class="sobre-nos-content">
@@ -100,10 +104,41 @@
                 </p>
             </div>
         </section>
+
+        <!-- Adicione este div onde deseja exibir os comentários -->
+          <div id="comentarios-container" class="comentarios-container"></div>
+
     </main>
     <script src="pages/script.js"></script>
     <script>
-        // Função para obter parâmetros da URL
+        window.onload = function () {
+            carregarComentarios();
+        };
+        
+        function carregarComentarios() {
+            fetch('http://127.0.0.1:5000/listar_comentarios')
+                .then(response => response.json())
+                .then(data => {
+                    exibirComentarios(data);
+                })
+                .catch((error) => {
+                    console.error('Erro ao carregar comentários:', error);
+                });
+        }
+        
+        function exibirComentarios(comentarios) {
+            var comentariosContainer = document.getElementById('comentarios-container');
+        
+            comentariosContainer.innerHTML = '';
+        
+            comentarios.forEach(function (comentario) {
+                var comentarioElement = document.createElement('div');
+                comentarioElement.className = 'comentario';
+                comentarioElement.innerHTML = '<strong>' + comentario.usuario + ':</strong> ' + comentario.comentario;
+                comentariosContainer.appendChild(comentarioElement);
+            });
+        }
+        
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -113,16 +148,47 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-
-        // Obter o nome de usuário dos parâmetros da URL
+        
         var username = getParameterByName('username');
-
-        // Atualizar o conteúdo da página com o nome de usuário
+        
         document.getElementById('username').innerText = username;
+        document.getElementById('usernameInReview').innerText = username;
+        
+        function submitReview() {
+            var username = document.getElementById('username').innerText;
+            var reviewText = document.getElementById('userReview').value;
+        
+            if (!reviewText) {
+                alert('Por favor, digite sua avaliação antes de enviar.');
+                return;
+            }
+        
+            var data = {
+                usuario: username,
+                comentario: reviewText
+            };
+        
+            fetch('http://localhost:5000/adicionar_comentario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensagem);
+                    document.getElementById('userReview').value = '';
+                    carregarComentarios(); // Adiciona essa linha para recarregar os comentários após o envio de um novo
+                })
+                .catch((error) => {
+                    console.error('Erro ao enviar avaliação:', error);
+                });
+        }
+        
+   
     </script>
+    
 </body>
 
 </html>
-
-
-
