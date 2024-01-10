@@ -20,7 +20,6 @@
             <label for="categoryFilter" id="filtro">:</label>
             <select id="categoryFilter">
                 <option value="">Todas as Categorias</option>
-          
             </select>
 
             <button onclick="filterGames('nome_do_jogo')" id="filto">Filtrar por Nome</button>
@@ -59,10 +58,12 @@
 
             let filteredGames;
 
-            if (property === 'categoria' && categoryValue !== "") {
+            if (property === 'nome_do_jogo' && filterValue !== "") {
+                filteredGames = games.filter(game => game[property].toLowerCase().includes(filterValue));
+            } else if (property === 'categoria' && categoryValue !== "") {
                 filteredGames = games.filter(game => game[property].toLowerCase() === categoryValue);
             } else {
-                filteredGames = games.filter(game => game[property].toLowerCase().includes(filterValue));
+                filteredGames = games;
             }
 
             displayGames(filteredGames);
@@ -144,7 +145,7 @@
         h1 {
             color: #333;
         }
-
+        
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -161,38 +162,20 @@
         }
         
         input#filterInput,
-        select#categoryFilter {
+        select#categoryFilter,
+        button {
             flex: 1 1 100%;
             margin-bottom: 10px;
             padding: 10px;
             box-sizing: border-box;
             border-radius: 30px;
             border: 2px solid #555;
-        }
-        
-        button,
-        .add-to-cart-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 10px;
+            cursor: pointer; /* Adição da propriedade cursor: pointer para todos os botões */
         }
         
         button {
             background-color: #007bff;
             color: #fff;
-        }
-        
-        .add-to-cart-button {
-            background-color: #28a745;
-            color: #fff;
-            transition: background-color 0.3s ease-in-out;
-        }
-        
-        .add-to-cart-button:hover {
-            background-color: #218838;
         }
         
         .card-container {
@@ -225,30 +208,44 @@
         #volte {
             width: 80px;
             height: 80px;
-            cursor: pointer;
+            cursor: pointer; /* Adição da propriedade cursor: pointer */
         }
-
-        #filtro {
-            flex: 1 1 100%;
-        }
-
+        
+        /* Ajustes para desktops */
         #filtroCategoria {
-            flex: 1 1 100%;
+            position: relative;
+            left: 100px;
+        }
+        
+        #filto {
+            position: relative;
+            top: 52px;
+            right: 450px;
         }
         
         @media screen and (max-width: 600px) {
+            /* Ajustes para dispositivos móveis */
             label,
             input#filterInput,
             select#categoryFilter,
-            button,
-            .add-to-cart-button {
+            button {
                 width: 100%;
+            }
+        
+            #filtroCategoria,
+            #filto {
+                /* Remova as posições específicas para dispositivos móveis */
+                position: static;
+                left: auto;
+                top: auto;
+                right: auto;
             }
         }
         
 
+ 
         
-        
+
     </style>
 </body>
 
