@@ -11,14 +11,14 @@
 
 <body>
     <div class="mobile-logo">
-        <a href="index.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+
     </div>
     <div class="container">
         <h1>Nossos Consoles</h1>
         <div>
             <label for="filterInput">Pesquisar Console:</label>
             <input type="text" id="filterInput">
-            <button onclick="filterConsoles()">Filtrar</button>
+            <button onclick="filterConsoles()" id="mobile">Filtrar</button>
         </div>
         <div id="consoleList" class="card-container"></div>
     </div>
@@ -34,7 +34,7 @@
             const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://192.168.15.9:3000/consoles", true);
+            xhr.open("GET", "http://172.16.31.43:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -61,27 +61,26 @@
                 card.classList.add("card");
 
                 const title = document.createElement("h2");
-                title.textContent = consoleData.nome_do_console;
+                title.textContent = consoleData && consoleData.nome_do_console ? consoleData.nome_do_console : "Nome não disponível";
 
                 const description = document.createElement("p");
-                description.textContent = consoleData.descriçao;
+                description.textContent = consoleData && consoleData.descriçao ? consoleData.descriçao : "Descrição não disponível";
 
                 const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(consoleData.valor).toFixed(2)}`;
+                const formattedPrice = (parseFloat(consoleData.valor) * 5.6).toFixed(2);
+                price.textContent = `Preço: R$${formattedPrice}`;
 
                 const image = document.createElement("img");
                 image.src = consoleData.imagem;
-                image.alt = consoleData.nome_do_console;
+                image.alt = title.textContent;
 
-                // Add to Cart button
                 const addToCartButton = document.createElement("button");
                 addToCartButton.textContent = "Adicionar ao Carrinho";
                 addToCartButton.classList.add("add-to-cart-button");
 
-                // Add an event listener or link it to your cart functionality
-                // addToCartButton.addEventListener("click", function() {
-                //     // Your logic to add to cart
-                // });
+                addToCartButton.addEventListener("click", function () {
+                    addItemToCart(consoleData);
+                });
 
                 card.appendChild(title);
                 card.appendChild(description);
@@ -92,6 +91,16 @@
                 consoleListContainer.appendChild(card);
             });
         }
+
+        function addItemToCart(item) {
+            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+            const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+            carrinhoItens.push(item);
+            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+            alert(`"${item.nome_do_console}" foi adicionado ao carrinho!`);
+        }
     </script>
 
     <style>
@@ -100,10 +109,11 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #333; /* Cor de texto mais escura para contraste */
+            color: #333;
+            /* Cor de texto mais escura para contraste */
         }
-        
-        
+
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -111,7 +121,8 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center text within the container */
+            text-align: center;
+            /* Center text within the container */
         }
 
         h1 {
@@ -200,6 +211,11 @@
         @media screen and (max-width: 600px) {
             .card {
                 flex: 1 1 45%;
+            }
+
+            #mobile {
+                position: relative;
+                top: 6px;
             }
         }
     </style>

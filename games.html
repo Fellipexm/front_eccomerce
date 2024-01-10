@@ -7,16 +7,19 @@
     <title>Games</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
+    <style>
+        /* Seu CSS aqui */
+    </style>
 </head>
 
 <body>
-    <a href="index.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+   
     <div class="container">
         <h1>Nossos Jogos</h1>
         <div>
             <label for="filterInput">Pesquisar Game:</label>
             <input type="text" id="filterInput">
-            
+
             <label for="categoryFilter" id="filtro">:</label>
             <select id="categoryFilter">
                 <option value="">Todas as Categorias</option>
@@ -30,98 +33,146 @@
 
     <script>
         let games = [];
+let carrinhoItens = [];
 
-        document.addEventListener("DOMContentLoaded", function () {
-            loadGames();
+document.addEventListener("DOMContentLoaded", function () {
+    loadGames();
+    updateCartDisplay();
+});
+
+function loadGames() {
+    const gameListContainer = document.getElementById("gameList");
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://172.16.31.43:3000/games", true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            games = JSON.parse(xhr.responseText);
+            displayGames(games);
+            fillCategoryDropdown(games);
+        }
+    };
+
+    xhr.send();
+}
+
+function filterGames(property) {
+    const filterValue = document.getElementById("filterInput").value.toLowerCase();
+    const categoryValue = document.getElementById("categoryFilter").value.toLowerCase();
+
+    let filteredGames;
+
+    if (property === 'nome_do_jogo' && filterValue !== "") {
+        filteredGames = games.filter(game => game[property].toLowerCase().includes(filterValue));
+    } else if (property === 'categoria' && categoryValue !== "") {
+        filteredGames = games.filter(game => game[property].toLowerCase() === categoryValue);
+    } else {
+        filteredGames = games;
+    }
+
+    displayGames(filteredGames);
+}
+
+function fillCategoryDropdown(games) {
+    const categoryDropdown = document.getElementById("categoryFilter");
+    const uniqueCategories = [...new Set(games.map(game => game.categoria))];
+
+    uniqueCategories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.toLowerCase();
+        option.textContent = category;
+        categoryDropdown.appendChild(option);
+    });
+}
+
+function displayGames(games) {
+    const gameListContainer = document.getElementById("gameList");
+    gameListContainer.innerHTML = '';
+
+    games.forEach(gameData => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const title = document.createElement("h2");
+        title.textContent = gameData.nome_do_jogo;
+
+        const description = document.createElement("p");
+        description.textContent = gameData.descricao;
+
+        const category = document.createElement("p");
+        category.textContent = `Categoria: ${gameData.categoria}`;
+
+        const price = document.createElement("p");
+        const priceInReais = (parseFloat(gameData.valor) * 5.5).toFixed(2); // Ajuste o valor de 5.5 conforme a taxa de câmbio desejada
+        price.textContent = `Preço: R$${priceInReais}`;
+
+        const image = document.createElement("img");
+        image.src = gameData.imagem;
+        image.alt = gameData.nome_do_jogo;
+
+        const addToCartButton = document.createElement("button");
+        addToCartButton.textContent = "Adicionar ao Carrinho";
+        addToCartButton.classList.add("add-to-cart-button");
+        addToCartButton.addEventListener("click", function () {
+            addToCartAndRedirect(gameData);
         });
 
-        function loadGames() {
-            const gameListContainer = document.getElementById("gameList");
+        card.appendChild(title);
+        card.appendChild(description);
+        card.appendChild(category);
+        card.appendChild(price);
+        card.appendChild(image);
+        card.appendChild(addToCartButton);
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://192.168.15.9:3000/games", true);
+        gameListContainer.appendChild(card);
+    });
+}
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    games = JSON.parse(xhr.responseText);
-                    displayGames(games);
-                    fillCategoryDropdown(games);
-                }
-            };
+function addToCartAndRedirect(gameData) {
+    addToCart(gameData);
+    window.location.href = "carrinho.html"; // Redireciona para a página carrinho.html
+}
 
-            xhr.send();
-        }
+function addToCart(gameData) {
+    const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+    carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
 
-        function filterGames(property) {
-            const filterValue = document.getElementById("filterInput").value.toLowerCase();
-            const categoryValue = document.getElementById("categoryFilter").value.toLowerCase();
+    carrinhoItens.push(gameData);
 
-            let filteredGames;
+    localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
 
-            if (property === 'nome_do_jogo' && filterValue !== "") {
-                filteredGames = games.filter(game => game[property].toLowerCase().includes(filterValue));
-            } else if (property === 'categoria' && categoryValue !== "") {
-                filteredGames = games.filter(game => game[property].toLowerCase() === categoryValue);
-            } else {
-                filteredGames = games;
-            }
+    updateCartDisplay();
+}
 
-            displayGames(filteredGames);
-        }
+function updateCartDisplay() {
+    const carrinhoListContainer = document.getElementById("carrinho-list");
+    carrinhoListContainer.innerHTML = '';
 
-        function fillCategoryDropdown(games) {
-            const categoryDropdown = document.getElementById("categoryFilter");
+    const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+    carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
 
-            // Obter todas as categorias únicas
-            const uniqueCategories = [...new Set(games.map(game => game.categoria))];
-            
-            // Preencher as opções do menu suspenso
-            uniqueCategories.forEach(category => {
-                const option = document.createElement("option");
-                option.value = category.toLowerCase();
-                option.textContent = category;
-                categoryDropdown.appendChild(option);
-            });
-        }
+    if (carrinhoItens.length === 0) {
+        const emptyCartMessage = document.createElement("p");
+        emptyCartMessage.textContent = "Seu carrinho está vazio.";
+        carrinhoListContainer.appendChild(emptyCartMessage);
+    } else {
+        carrinhoItens.forEach(item => {
+            const listItem = document.createElement("li");
 
-        function displayGames(games) {
-            const gameListContainer = document.getElementById("gameList");
-            gameListContainer.innerHTML = '';
+            const itemInfo = document.createElement("div");
+            itemInfo.textContent = `${item.nome_do_jogo} - ${item.descricao} - R$${(parseFloat(item.valor) * 5.5).toFixed(2)}`;
 
-            games.forEach(gameData => {
-                const card = document.createElement("div");
-                card.classList.add("card");
+            const itemImage = document.createElement("img");
+            itemImage.src = item.imagem;
+            itemImage.alt = item.nome_do_jogo;
 
-                const title = document.createElement("h2");
-                title.textContent = gameData.nome_do_jogo;
+            listItem.appendChild(itemInfo);
+            listItem.appendChild(itemImage);
+            carrinhoListContainer.appendChild(listItem);
+        });
+    }
+}
 
-                const description = document.createElement("p");
-                description.textContent = gameData.descricao;
-
-                const category = document.createElement("p");
-                category.textContent = `Categoria: ${gameData.categoria}`;
-
-                const price = document.createElement("p");
-                price.textContent = `Preço: $${parseFloat(gameData.valor).toFixed(2)}`;
-
-                const image = document.createElement("img");
-                image.src = gameData.imagem;
-                image.alt = gameData.nome_do_jogo;
-
-                const addToCartButton = document.createElement("button");
-                addToCartButton.textContent = "Adicionar ao Carrinho";
-                addToCartButton.classList.add("add-to-cart-button");
-
-                card.appendChild(title);
-                card.appendChild(description);
-                card.appendChild(category);
-                card.appendChild(price);
-                card.appendChild(image);
-                card.appendChild(addToCartButton);
-
-                gameListContainer.appendChild(card);
-            });
-        }
     </script>
 
     <style>
@@ -131,7 +182,7 @@
             margin: 0;
             padding: 0;
         }
-        
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -141,18 +192,18 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        
+
         h1 {
             color: #333;
         }
-        
+
         .filters {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             margin-bottom: 20px;
         }
-        
+
         label {
             font-size: 16px;
             margin-right: 10px;
@@ -160,7 +211,7 @@
             flex: 1 1 100%;
             margin-bottom: 10px;
         }
-        
+
         input#filterInput,
         select#categoryFilter,
         button {
@@ -170,20 +221,20 @@
             box-sizing: border-box;
             border-radius: 30px;
             border: 2px solid #555;
-            cursor: pointer; /* Adição da propriedade cursor: pointer para todos os botões */
+            cursor: pointer;
         }
-        
+
         button {
             background-color: #007bff;
             color: #fff;
         }
-        
+
         .card-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
         }
-        
+
         .card {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -194,58 +245,50 @@
             transition: transform 0.3s ease-in-out;
             width: 200px;
         }
-        
+
         .card:hover {
             transform: scale(1.05);
         }
-        
+
         .card img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
-        
+
         #volte {
             width: 80px;
             height: 80px;
-            cursor: pointer; /* Adição da propriedade cursor: pointer */
+            cursor: pointer;
         }
-        
-        /* Ajustes para desktops */
+
         #filtroCategoria {
             position: relative;
             left: 100px;
         }
-        
+
         #filto {
             position: relative;
             top: 52px;
             right: 450px;
         }
-        
+
         @media screen and (max-width: 600px) {
-            /* Ajustes para dispositivos móveis */
             label,
             input#filterInput,
             select#categoryFilter,
             button {
                 width: 100%;
             }
-        
+
             #filtroCategoria,
             #filto {
-                /* Remova as posições específicas para dispositivos móveis */
                 position: static;
                 left: auto;
                 top: auto;
                 right: auto;
             }
         }
-        
-
- 
-        
-
     </style>
 </body>
 

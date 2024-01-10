@@ -18,7 +18,7 @@
     <div class="carousel-container">
         <img src="assets/logo1.png" alt="gamestore" id="logo">
     </div>
-    
+
     <div class="login">
         <a href="login.html" id="login" class="button">Login</a>
         <a href="cadastro.html" id="cadastrar" class="button">Cadastrar</a>
@@ -33,6 +33,7 @@
                     máximo sua visita, convidamos você a criar uma conta ou fazer login. Explore as últimas novidades,
                     entregue-se ao encanto e divirta-se em cada detalhe. Estamos aqui para tornar sua experiência única
                     e inesquecível. 💖✨
+                    <img src="https://i.postimg.cc/Wph7Z7YR/Black-and-Yellow-Minimalist-Player-Gaming-Logo-1-removebg-preview.png" style="width: 300px;">
                 </p>
                 <div id="games-products" class="products"></div>
             </div>
@@ -40,8 +41,9 @@
         </section>
 
         <section id="games" class="game-section">
-            <h2><a href="games.html" onclick="loadGamesPage()">Jogos</a></h2>
+            <a href="games.html"><img src="https://i.postimg.cc/d3LfHTHR/Black-and-Yellow-Minimalist-Player-Gaming-Logo-removebg-preview.png" id="jogo"></a>
             <div class="sobre-nos-content">
+                <p> Clique no Ícone⬆️</p><br>
                 <p>
 
 
@@ -57,8 +59,9 @@
         </section>
 
         <section id="consoles" class="game-section">
-            <h2><a href="console.html">Consoles</a></h2>
+            <a href="console.html"><img src="https://i.postimg.cc/MpRnkfkD/console-removebg-preview.png" id="console"></a>
             <div class="sobre-nos-content">
+                <p> Clique no Ícone⬆️</p><br>
                 <p>
                     Explore a nossa seleção de consoles de última geração, proporcionando gráficos impressionantes e
                     jogabilidade envolvente. Dos consoles mais populares aos lançamentos mais recentes, temos o
@@ -71,15 +74,13 @@
                 <div id="consoles-products" class="products"></div>
         </section>
         <section id="accessories" class="game-section">
-            <h2><a href="ascessorios.html">Acessórios</a></h2>
+            <a href="carrinho.html"><img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho"></a>
             <div class="sobre-nos-content">
+                <p> Clique no Ícone⬆️</p><br>
                 <p>
-                    Explore o universo gamer com os melhores acessórios diretamente no seu cartão! Em nossa loja, cada
-                    clique representa uma jogada estratégica para a vitória. Mergulhe na experiência completa com
-                    teclados iluminados, mouses de alta precisão e headsets imersivos, tudo a um clique de distância.
-                    Desfrute da conveniência e da emoção de aprimorar sua configuração com os melhores acessórios
-                    gamers, agora disponíveis no seu cartão de preferência. Eleve seu jogo com estilo e tecnologia,
-                    porque na nossa loja, a vitória está sempre ao seu alcance.
+                    Conclua sua compra com facilidade! Faça login para continuar de onde parou ou cadastre-se para
+                    desfrutar de benefícios exclusivos. Garanta uma experiência de compra rápida e segura. Clique em
+                    "Login" ou "Cadastrar" agora. Agradecemos por escolher nossos produtos!
                 </p>
             </div>
             <div id="accessories-products" class="products"></div>
@@ -88,6 +89,7 @@
         <section id="sobre-nos" class="game-section">
             <h2>Sobre Nós</h2>
             <div class="sobre-nos-content">
+  
                 <p>
                     Bem-vindo à "Game Store", sua loja virtual definitiva para tudo relacionado a jogos! Explore nosso
                     vasto
@@ -120,6 +122,21 @@
 
         // Atualizar o conteúdo da página com o nome de usuário
         document.getElementById('username').innerText = username;
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+        var carrinhoLink = document.querySelector('#accessories a');
+
+        carrinhoLink.addEventListener('mouseenter', function () {
+            carrinhoLink.style.cursor = 'not-allowed';
+            carrinhoLink.removeAttribute('href');
+        });
+
+        carrinhoLink.addEventListener('mouseleave', function () {
+            carrinhoLink.style.cursor = 'auto';
+            carrinhoLink.setAttribute('href', 'carrinho.html');
+        });
+    });
     </script>
 </body>
 

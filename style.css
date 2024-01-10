@@ -56,8 +56,8 @@ main {
 #logo {
     position: absolute;
     align-items: center;
-    top: 730px;
-    left: 630px;
+    top: 780px;
+    left: 700px;
 }
 
 .sobre-nos-content {
@@ -137,7 +137,21 @@ main {
 
 }
 
+#carinho {
+    position: relative;
+    width: 70px;
+}
 
+#console {
+    position: relative;
+    width: 100px;
+}
+
+#jogo {
+    position: relative;
+    width: 130px;
+
+}
 @media (max-width: 768px) {
     .game-section,
     .product {
@@ -154,9 +168,10 @@ main {
     #logo {
         position: absolute;
         transform: none;
-        left: -70px;
+        left: 20px;
         margin-top: 20px;
-        top: 2200px;
+        top: 2600px;
+        width: 350px;
     }
 
     #console1 {
@@ -176,14 +191,22 @@ main {
         position: relative;
         top: 10px; /* Adjust the top position as needed */
         left: 30px;
+        width: 100px;
     }
     
     #cadastrar {
         position: relative;
         top: 10px;
-        left: 130px;
+        left: 100px;
         margin-left: 10px; /* Adjust the margin as needed */
     }
+
+    #sair {
+        position: relative;
+        top: 10px;
+        left: 173px;
+        background-color: red;
     
+    }
     
 }
