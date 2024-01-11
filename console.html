@@ -34,7 +34,7 @@
             const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://192.168.15.9:3000/consoles", true);
+            xhr.open("GET", "http://172.16.31.43:3000/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -75,12 +75,9 @@
                 image.alt = title.textContent;
 
                 const addToCartButton = document.createElement("button");
-                addToCartButton.textContent = "Adicionar ao Carrinho";
-                addToCartButton.classList.add("add-to-cart-button");
-
-                addToCartButton.addEventListener("click", function () {
-                    addItemToCart(consoleData);
-                });
+                addToCartButton.textContent = "Esgotado";
+                addToCartButton.classList.add("esgotado-button");
+                addToCartButton.disabled = true;
 
                 card.appendChild(title);
                 card.appendChild(description);
@@ -91,16 +88,6 @@
                 consoleListContainer.appendChild(card);
             });
         }
-
-        function addItemToCart(item) {
-            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-            const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
-
-            carrinhoItens.push(item);
-            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
-
-            alert(`"${item.nome_do_console}" foi adicionado ao carrinho!`);
-        }
     </script>
 
     <style>
@@ -109,8 +96,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
-            /* Cor de texto mais escura para contraste */
+
         }
 
 
@@ -217,6 +203,22 @@
                 position: relative;
                 top: 6px;
             }
+        }
+
+        .esgotado-button {
+            background-color: #d9534f;
+            /* Cor de fundo para estado esgotado */
+            cursor: not-allowed;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .esgotado-button:hover {
+            background-color: #d9534f;
+            /* Mantenha a mesma cor no hover para indicar estado esgotado */
         }
     </style>
 </body>

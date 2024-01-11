@@ -7,32 +7,28 @@
     <title>Games</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
-    <style>
-        /* Seu CSS aqui */
-    </style>
 </head>
 
 <body>
-   
     <div class="container">
-        <h1>Nossos Jogos</h1>
-        <div>
+        <h1>Jogos da Game Store</h1>
+        <div class="filters">
             <label for="filterInput">Pesquisar Game:</label>
             <input type="text" id="filterInput">
 
-            <label for="categoryFilter" id="filtro">:</label>
+            <label for="categoryFilter">Categoria:</label>
             <select id="categoryFilter">
                 <option value="">Todas as Categorias</option>
             </select>
 
-            <button onclick="filterGames('nome_do_jogo')" id="filto">Filtrar por Nome</button>
-            <button onclick="filterGames('categoria')" id="filtroCategoria">Filtrar por Categoria</button>
+            <button onclick="filterGames('nome_do_jogo')">Filtrar por Nome</button>
+            <button onclick="filterGames('categoria')">Filtrar por Categoria</button>
         </div>
         <div id="gameList" class="card-container"></div>
     </div>
 
     <script>
-        let games = [];
+      let games = [];
 let carrinhoItens = [];
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -43,13 +39,17 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadGames() {
     const gameListContainer = document.getElementById("gameList");
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://192.168.15.9:3000/games", true);
+    xhr.open("GET", "http://172.16.31.43:3000/games", true);
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            games = JSON.parse(xhr.responseText);
-            displayGames(games);
-            fillCategoryDropdown(games);
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                games = JSON.parse(xhr.responseText);
+                displayGames(games);
+                fillCategoryDropdown(games);
+            } else {
+                console.error("Erro ao carregar os jogos. Código de status: " + xhr.status);
+            }
         }
     };
 
@@ -97,13 +97,13 @@ function displayGames(games) {
         title.textContent = gameData.nome_do_jogo;
 
         const description = document.createElement("p");
-        description.textContent = gameData.descricao;
+        description.textContent = gameData.descricao || "Descrição não disponível";
 
         const category = document.createElement("p");
         category.textContent = `Categoria: ${gameData.categoria}`;
 
         const price = document.createElement("p");
-        const priceInReais = (parseFloat(gameData.valor) * 5.5).toFixed(2); // Ajuste o valor de 5.5 conforme a taxa de câmbio desejada
+        const priceInReais = (parseFloat(gameData.valor) * 5.5).toFixed(2);
         price.textContent = `Preço: R$${priceInReais}`;
 
         const image = document.createElement("img");
@@ -114,7 +114,7 @@ function displayGames(games) {
         addToCartButton.textContent = "Adicionar ao Carrinho";
         addToCartButton.classList.add("add-to-cart-button");
         addToCartButton.addEventListener("click", function () {
-            addToCartAndRedirect(gameData);
+            addToCart(gameData);  // Correção aqui, passando gameData diretamente
         });
 
         card.appendChild(title);
@@ -128,9 +128,14 @@ function displayGames(games) {
     });
 }
 
-function addToCartAndRedirect(gameData) {
+function addToCartAndRedirect(gameId) {
+    const gameData = games.find(game => game.id === gameId);
     addToCart(gameData);
-    window.location.href = "carrinho.html"; // Redireciona para a página carrinho.html
+    const params = new URLSearchParams();
+    params.append('nome_do_jogo', gameData.nome_do_jogo || "Nome não disponível");
+    params.append('descricao', gameData.descricao || "Descrição não disponível");
+    params.append('id', gameData.id);
+    window.location.href = "carrinho.html?" + params.toString();
 }
 
 function addToCart(gameData) {
@@ -160,7 +165,7 @@ function updateCartDisplay() {
             const listItem = document.createElement("li");
 
             const itemInfo = document.createElement("div");
-            itemInfo.textContent = `${item.nome_do_jogo} - ${item.descricao} - R$${(parseFloat(item.valor) * 5.5).toFixed(2)}`;
+            itemInfo.textContent = `${item.nome_do_jogo} - ${item.descricao || "Descrição não disponível"} - R$${(parseFloat(item.valor) * 5.5).toFixed(2)}`;
 
             const itemImage = document.createElement("img");
             itemImage.src = item.imagem;
@@ -176,7 +181,7 @@ function updateCartDisplay() {
     </script>
 
     <style>
-        body {
+            body {
             background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
             font-family: 'Arial', sans-serif;
             margin: 0;

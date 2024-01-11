@@ -4,120 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho - Game Store</title>
-    <link rel="icon" href="logo1.png">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e6f7ff;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        #carrinho-list {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        #carrinho-list li {
-            width: 300px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            position: relative;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        #carrinho-list li:hover {
-            transform: scale(1.05);
-        }
-
-        #carrinho-list img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        #carrinho-list div {
-            margin-bottom: 10px;
-        }
-
-        #carrinho-list p {
-            margin: 0;
-        }
-
-        .empty-cart-message {
-            color: #555;
-        }
-
-        .checkbox-container {
-            text-align: right;
-            margin-bottom: 10px;
-        }
-
-        .checkbox-container input {
-            margin-right: 5px;
-        }
-
-        #buy-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        #buy-button:hover {
-            background-color: #45a049;
-        }
-
-        #total-amount {
-            font-size: 18px;
-            margin-top: 20px;
-        }
-
-
-        
-        #volte {
-            width: 80px;
-            height: 80px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Carrinho de Compras</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
 </head>
-<a href="home.html"><img src="https://i.postimg.cc/W1K97b69/volte-removebg-preview.png" id="volte"></a>
+
 <body>
-    <h1>Seu Carrinho</h1>
-
-    <ul id="carrinho-list"></ul>
-
-    <p id="total-amount"></p>
-
-    <button id="buy-button" onclick="buyItems()">Comprar</button>
+    <div class="container">
+        <h1>Carrinho de Compras 🛒 </h1>
+        <ul id="carrinho-list"></ul>
+        <button onclick="compareSelected()">Comparar Itens Selecionados</button>
+        <p id="totalPrice">Total : R$0.00</p>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            updateCartDisplay();
-            updateTotalAmount();
+            displayCartItems();
         });
 
-        function updateCartDisplay() {
+        function displayCartItems() {
             const carrinhoListContainer = document.getElementById("carrinho-list");
             carrinhoListContainer.innerHTML = '';
 
@@ -126,114 +31,165 @@
 
             if (carrinhoItens.length === 0) {
                 const emptyCartMessage = document.createElement("p");
-                emptyCartMessage.classList.add("empty-cart-message");
                 emptyCartMessage.textContent = "Seu carrinho está vazio.";
                 carrinhoListContainer.appendChild(emptyCartMessage);
             } else {
                 carrinhoItens.forEach((item, index) => {
                     const listItem = document.createElement("li");
+                    listItem.classList.add("cart-item");
 
-                    const checkboxContainer = document.createElement("div");
-                    checkboxContainer.classList.add("checkbox-container");
+                    const itemCheckbox = document.createElement("input");
+                    itemCheckbox.type = "checkbox";
+                    itemCheckbox.classList.add("compare-checkbox");
+                    itemCheckbox.dataset.index = index; // Adiciona um atributo para armazenar o índice
+                    itemCheckbox.addEventListener("change", updateTotalPrice);
+                    listItem.appendChild(itemCheckbox);
 
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkbox.name = `itemCheckbox${index}`;
-                    checkbox.value = "selected";
-                    checkbox.addEventListener("change", function () {
-                        updateTotalAmount();
-                    });
-                    checkboxContainer.appendChild(checkbox);
+                    const itemInfo = document.createElement("div");
+                    itemInfo.classList.add("item-info");
+                    itemInfo.textContent = `${item.nome_do_jogo} - ${item.descricao || "Descrição não disponível"} - R$${(parseFloat(item.valor) * 5.5).toFixed(2)}`;
 
                     const itemImage = document.createElement("img");
                     itemImage.src = item.imagem;
-                    itemImage.alt = item.nome_do_console;
+                    itemImage.alt = item.nome_do_jogo;
 
-                    const itemInfo = document.createElement("div");
-                    const itemName = document.createElement("p");
-                    itemName.textContent = `Nome: ${item.nome_do_console || "Nome não disponível"}`;
-                    const itemDescription = document.createElement("p");
-                    itemDescription.textContent = `Descrição: ${item.descriçao || "Descrição não disponível"}`;
-                    const itemPrice = document.createElement("p");
-                    const priceInReais = (parseFloat(item.valor) * 5.5).toFixed(2);
-                    itemPrice.textContent = `Preço: R$${priceInReais}`;
-
-                    itemInfo.appendChild(itemName);
-                    itemInfo.appendChild(itemDescription);
-                    itemInfo.appendChild(itemPrice);
-
-                    listItem.appendChild(checkboxContainer);
-                    listItem.appendChild(itemImage);
                     listItem.appendChild(itemInfo);
+                    listItem.appendChild(itemImage);
                     carrinhoListContainer.appendChild(listItem);
                 });
             }
         }
 
-        function updateTotalAmount() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const selectedItems = [];
+        function compareSelected() {
+            const checkboxes = document.querySelectorAll('.compare-checkbox');
+            const selectedItemsIndexes = [];
 
             checkboxes.forEach((checkbox, index) => {
                 if (checkbox.checked) {
-                    selectedItems.push(index);
+                    selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
+                    checkbox.parentElement.remove(); // Remove o item da lista
                 }
             });
 
+            // Remover os itens selecionados do carrinho
             const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-            const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+            let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
 
-            let totalCompra = 0;
+            selectedItemsIndexes.sort((a, b) => b - a); // Ordena do maior índice para o menor
 
-            selectedItems.forEach(index => {
-                const selectedItem = carrinhoItens[index];
-                const itemPriceInReais = parseFloat(selectedItem.valor) * 5.5;
-                totalCompra += itemPriceInReais;
+            selectedItemsIndexes.forEach(index => {
+                carrinhoItens.splice(index, 1);
             });
 
-            const totalAmountElement = document.getElementById("total-amount");
-            totalAmountElement.textContent = `Total da compra: R$${totalCompra.toFixed(2)}`;
+            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+            updateTotalPrice(); // Atualiza o preço total
         }
 
-        function buyItems() {
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const selectedItems = [];
+        function updateTotalPrice() {
+            const checkboxes = document.querySelectorAll('.compare-checkbox');
+            let totalPrice = 0;
 
             checkboxes.forEach((checkbox, index) => {
                 if (checkbox.checked) {
-                    selectedItems.push(index);
+                    const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+                    const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+                    if (carrinhoItens.length > index) {
+                        totalPrice += parseFloat(carrinhoItens[index].valor) * 5.5;
+                    }
                 }
             });
 
-            if (selectedItems.length > 0) {
-                const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-                let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
-
-                let totalCompra = 0;
-
-                selectedItems.forEach(index => {
-                    const selectedItem = carrinhoItens[index];
-                    const itemPriceInReais = parseFloat(selectedItem.valor) * 5.5;
-                    totalCompra += itemPriceInReais;
-                });
-
-                alert(`Compra realizada com sucesso!\nTotal da compra: R$${totalCompra.toFixed(2)}`);
-
-                carrinhoItens = carrinhoItens.filter((item, index) => !selectedItems.includes(index));
-                localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
-                updateCartDisplay();
-
-                const totalAmountElement = document.getElementById("total-amount");
-                totalAmountElement.textContent = `Total da compra: R$${totalCompra.toFixed(2)}`;
-            } else {
-                alert("Por favor, selecione pelo menos um item para comprar.");
-            }
+            const totalPriceElement = document.getElementById("totalPrice");
+            totalPriceElement.textContent = `Total: R$${totalPrice.toFixed(2)}`;
         }
     </script>
-</body>
 
-</html>
-</body>
+    <style>
+          body {
+            background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #carrinho-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .cart-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .cart-item:hover {
+            transform: scale(1.05);
+        }
+
+        .compare-checkbox {
+            margin-bottom: 10px;
+        }
+
+        .item-info {
+            margin-bottom: 10px;
+        }
+
+        .cart-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #totalPrice {
+            font-weight: bold;
+            margin-top: 10px;
+            position: relative;
+            top: 30px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .cart-item {
+                width: 100%;
+            }
+        }
+        
+    </style>
 </body>
 
 </html>

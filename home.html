@@ -144,7 +144,7 @@
                 comentario: reviewText
             };
     
-            fetch('http://192.168.15.9:5000/adicionar_comentario', {
+            fetch(' http://192.168.56.1:5000/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -163,7 +163,7 @@
         }
         
         function carregarComentarios() {
-            fetch('http://192.168.15.9/listar_comentarios')
+            fetch('http://192.168.56.1:5000/listar_comentarios')
                 .then(response => response.json())
                 .then(data => {
                     exibirComentarios(data);
@@ -215,7 +215,7 @@
                 comentario: reviewText
             };
         
-            fetch('http://localhost:5000/adicionar_comentario', {
+            fetch('http://192.168.56.1:5000/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -263,7 +263,7 @@
         });
         
         function carregarComentarios() {
-            fetch('http://127.0.0.1:5000/listar_comentarios')
+            fetch('http://192.168.56.1:5000/listar_comentarios')
                 .then(response => response.json())
                 .then(data => {
                     exibirComentarios(data);
@@ -314,7 +314,7 @@
                 comentario: reviewText
             };
         
-            fetch('http://localhost:5000/adicionar_comentario', {
+            fetch('http://192.168.56.1:5000/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
