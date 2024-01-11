@@ -25,7 +25,7 @@
             <h2>Bem-vindo, <span id="username"></span>!</h2>
             <div class="sobre-nos-content">
                 <p>
-                    Querido amigo(a) <span id="username">,</span> sua presença ilumina nossa loja! 🌟 Explore as últimas
+                    Querido amigo(a), <span id="username"></span> sua presença ilumina nossa loja! 🌟 Explore as últimas
                     novidades, entregue-se ao encanto e divirta-se em cada detalhe. Estamos aqui para tornar sua
                     experiência única e inesquecível. 💖✨
 
@@ -80,8 +80,9 @@
         </section>
 
         <section id="accessories" class="game-section">
-            <a href="carrinho.html"><img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho"></a>
-            <div class="sobre-nos-content">
+            <a href="carrinho.html" id="carrinho-link">
+                <img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho">
+            </a>
                 <p> Clique no Ícone⬆️</p><br>
                 <p>
                     Conclua sua compra ou faça sua primeira compra agora mesmo! 
@@ -144,7 +145,7 @@
                 comentario: reviewText
             };
     
-            fetch(' http://192.168.56.1:5000/adicionar_comentario', {
+            fetch(' https://avaliacoes-js.onrender.com/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -215,7 +216,7 @@
                 comentario: reviewText
             };
         
-            fetch('http://192.168.56.1:5000/adicionar_comentario', {
+            fetch('https://avaliacoes-js.onrender.com/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -314,7 +315,7 @@
                 comentario: reviewText
             };
         
-            fetch('http://192.168.56.1:5000/adicionar_comentario', {
+            fetch('https://avaliacoes-js.onrender.com/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -331,6 +332,39 @@
                     console.error('Erro ao enviar avaliação:', error);
                 });
         }
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var carrinhoLink = document.getElementById('carrinho-link');
+            carrinhoLink.addEventListener('mouseover', function () {
+                var usernameSpan = document.getElementById('username');
+                var username = usernameSpan.innerText.trim();
+                if (username === '') {
+                    carrinhoLink.style.cursor = 'not-allowed';
+                    carrinhoLink.removeAttribute('href'); // Remove o atributo 'href' para desativar o link
+                }
+            });
+        });
+   
+        history.pushState(null, null, document.URL);
+
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+    
+        
+        history.pushState(null, null, document.URL);
+
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+
+        function disableArrowKeys(e) {
+            if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        }
+
+        document.addEventListener('keydown', disableArrowKeys);
         
    
     </script>

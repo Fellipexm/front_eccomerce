@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function loadGames() {
     const gameListContainer = document.getElementById("gameList");
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://172.16.31.43:3000/games", true);
+    xhr.open("GET", "http://192.168.15.9:3000/games", true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -175,6 +175,26 @@ function updateCartDisplay() {
             listItem.appendChild(itemImage);
             carrinhoListContainer.appendChild(listItem);
         });
+    }
+}
+function addToCart(gameData) {
+    const usernameSpan = document.getElementById("username");
+
+    // Verifica se o 'username' está preenchido
+    if (usernameSpan && usernameSpan.textContent.trim() !== "") {
+        // Se o 'username' estiver preenchido, permite adicionar ao carrinho
+        const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+        carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+        carrinhoItens.push(gameData);
+
+        localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+        updateCartDisplay();
+    } else {
+        // Se o 'username' não estiver preenchido, exiba uma mensagem ou tome outra ação apropriada
+        alert("Por favor, faça login antes de adicionar itens ao carrinho.");
+        // Ou redirecione para a página de login, por exemplo: window.location.href = "login.html";
     }
 }
 
