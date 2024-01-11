@@ -156,7 +156,7 @@ main {
 #user-rating {
     position: relative;
     top: 530px;
-    left: 620px;
+    left: 715px;
     background-color: #fff;
     padding: 15px;
     border-radius: 5px;
@@ -177,6 +177,7 @@ main {
 }
 
 #user-rating button {
+    
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -188,6 +189,21 @@ main {
 #user-rating button:hover {
     background-color: #45a049;
 }
+
+.comentario-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.comentario-usuario {
+    font-weight: bold;
+}
+
+.comentario-texto {
+    margin-top: 5px;
+}
+
 
 @media (max-width: 768px) {
     .game-section,

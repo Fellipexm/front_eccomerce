@@ -39,6 +39,8 @@
                     <label for="userReview">Deixe sua avaliação, <span id="usernameInReview"></span>:</label>
                     <textarea id="userReview" rows="4" cols="50"></textarea>
                     <button onclick="submitReview()">Enviar Avaliação</button>
+                   <a href="avaliaçoes.html"> <button>Ver Avaliações</button></a> 
+
                 </div>
             </div>
         </section>
@@ -105,15 +107,60 @@
             </div>
         </section>
 
-        <!-- Adicione este div onde deseja exibir os comentários -->
-          <div id="comentarios-container" class="comentarios-container"></div>
+     
 
     </main>
     <script src="pages/script.js"></script>
     <script>
         window.onload = function () {
             carregarComentarios();
+            exibirSaudacao();
         };
+    
+        function exibirSaudacao() {
+            var username = localStorage.getItem('username');
+            if (username) {
+                document.getElementById('username').innerText = username;
+                document.getElementById('usernameInReview').innerText = username;
+            }
+        }
+    
+        function submitReview() {
+            var username = document.getElementById('username').innerText;
+            var reviewText = document.getElementById('userReview').value;
+    
+            if (!username) {
+                alert('Você precisa estar logado para enviar uma avaliação.');
+                return;
+            }
+    
+            if (!reviewText) {
+                alert('Por favor, digite sua avaliação antes de enviar.');
+                return;
+            }
+    
+            var data = {
+                usuario: username,
+                comentario: reviewText
+            };
+    
+            fetch('http://localhost:5000/adicionar_comentario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensagem);
+                    document.getElementById('userReview').value = '';
+                    carregarComentarios();
+                })
+                .catch((error) => {
+                    console.error('Erro ao enviar avaliação:', error);
+                });
+        }
         
         function carregarComentarios() {
             fetch('http://127.0.0.1:5000/listar_comentarios')
@@ -180,6 +227,105 @@
                     alert(data.mensagem);
                     document.getElementById('userReview').value = '';
                     carregarComentarios(); // Adiciona essa linha para recarregar os comentários após o envio de um novo
+                })
+                .catch((error) => {
+                    console.error('Erro ao enviar avaliação:', error);
+                });
+        }
+
+
+        function exibirComentarios(comentarios) {
+            var comentariosContainer = document.getElementById('comentarios-container');
+        
+            comentariosContainer.innerHTML = '';
+        
+            comentarios.forEach(function (comentario) {
+                var comentarioCard = document.createElement('div');
+                comentarioCard.className = 'comentario-card';
+        
+                var usuarioElement = document.createElement('p');
+                usuarioElement.className = 'comentario-usuario';
+                usuarioElement.innerText = 'Usuário: ' + comentario.usuario;
+                comentarioCard.appendChild(usuarioElement);
+        
+                var comentarioElement = document.createElement('p');
+                comentarioElement.className = 'comentario-texto';
+                comentarioElement.innerText = 'Comentário: ' + comentario.comentario;
+                comentarioCard.appendChild(comentarioElement);
+        
+                comentariosContainer.appendChild(comentarioCard);
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            carregarComentarios();
+        });
+        
+        function carregarComentarios() {
+            fetch('http://127.0.0.1:5000/listar_comentarios')
+                .then(response => response.json())
+                .then(data => {
+                    exibirComentarios(data);
+                })
+                .catch((error) => {
+                    console.error('Erro ao carregar comentários:', error);
+                });
+        }
+        
+        function exibirComentarios(comentarios) {
+            var comentariosContainer = document.getElementById('comentarios-container');
+        
+            comentariosContainer.innerHTML = '';
+        
+            comentarios.forEach(function (comentario) {
+                var comentarioCard = document.createElement('div');
+                comentarioCard.className = 'comentario-card';
+        
+                var usuarioElement = document.createElement('p');
+                usuarioElement.className = 'comentario-usuario';
+                usuarioElement.innerText = 'Usuário: ' + comentario.usuario;
+                comentarioCard.appendChild(usuarioElement);
+        
+                var comentarioElement = document.createElement('p');
+                comentarioElement.className = 'comentario-texto';
+                comentarioElement.innerText = 'Comentário: ' + comentario.comentario;
+                comentarioCard.appendChild(comentarioElement);
+        
+                comentariosContainer.appendChild(comentarioCard);
+            });
+        }
+        function submitReview() {
+            var username = document.getElementById('username').innerText;
+            var reviewText = document.getElementById('userReview').value;
+        
+            if (!username) {
+                alert('Você precisa estar logado para enviar uma avaliação.');
+                return;
+            }
+        
+            if (!reviewText) {
+                alert('Por favor, digite sua avaliação antes de enviar.');
+                return;
+            }
+        
+            var data = {
+                usuario: username,
+                comentario: reviewText
+            };
+        
+            fetch('http://localhost:5000/adicionar_comentario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.mensagem);
+                    document.getElementById('userReview').value = '';
+                    carregarComentarios();
                 })
                 .catch((error) => {
                     console.error('Erro ao enviar avaliação:', error);

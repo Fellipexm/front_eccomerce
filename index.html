@@ -38,15 +38,12 @@
                 <div id="games-products" class="products"></div>
             </div>
         </section>
-        </section>
 
         <section id="games" class="game-section">
             <a href="games.html"><img src="https://i.postimg.cc/d3LfHTHR/Black-and-Yellow-Minimalist-Player-Gaming-Logo-removebg-preview.png" id="jogo"></a>
             <div class="sobre-nos-content">
                 <p> Clique no Ícone⬆️</p><br>
                 <p>
-
-
                     Explore nosso paraíso gamer! Nossa loja oferece uma ampla seleção de jogos, desde clássicos
                     atemporais até lançamentos emocionantes. Descubra mundos fascinantes, encare desafios intrigantes e
                     mergulhe em narrativas envolventes. Seja fã de ação, aventura ou estratégia, temos o jogo perfeito
@@ -56,6 +53,7 @@
 
                 </p>
                 <div id="games-products" class="products"></div>
+            </div>
         </section>
 
         <section id="consoles" class="game-section">
@@ -72,9 +70,11 @@
 
                 </p>
                 <div id="consoles-products" class="products"></div>
+            </div>
         </section>
+
         <section id="accessories" class="game-section">
-            <a href="carrinho.html"><img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho"></a>
+            <a href="carrinho.html" id="accessories-link"><img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho"></a>
             <div class="sobre-nos-content">
                 <p> Clique no Ícone⬆️</p><br>
                 <p>
@@ -89,7 +89,6 @@
         <section id="sobre-nos" class="game-section">
             <h2>Sobre Nós</h2>
             <div class="sobre-nos-content">
-  
                 <p>
                     Bem-vindo à "Game Store", sua loja virtual definitiva para tudo relacionado a jogos! Explore nosso
                     vasto
@@ -123,20 +122,26 @@
         // Atualizar o conteúdo da página com o nome de usuário
         document.getElementById('username').innerText = username;
 
-
         document.addEventListener('DOMContentLoaded', function () {
-        var carrinhoLink = document.querySelector('#accessories a');
+            var carrinhoLink = document.querySelector('#accessories-link');
 
-        carrinhoLink.addEventListener('mouseenter', function () {
-            carrinhoLink.style.cursor = 'not-allowed';
-            carrinhoLink.removeAttribute('href');
-        });
+            // Verifica se há um nome de usuário para decidir se o link do carrinho está habilitado
+            if (username) {
+                carrinhoLink.addEventListener('mouseenter', function () {
+                    carrinhoLink.style.cursor = 'not-allowed';
+                    carrinhoLink.removeAttribute('href');
+                });
 
-        carrinhoLink.addEventListener('mouseleave', function () {
-            carrinhoLink.style.cursor = 'auto';
-            carrinhoLink.setAttribute('href', 'carrinho.html');
+                carrinhoLink.addEventListener('mouseleave', function () {
+                    carrinhoLink.style.cursor = 'auto';
+                    carrinhoLink.setAttribute('href', 'carrinho.html');
+                });
+            } else {
+                // Desabilita o link se não houver nome de usuário
+                carrinhoLink.style.cursor = 'not-allowed';
+                carrinhoLink.removeAttribute('href');
+            }
         });
-    });
     </script>
 </body>
 
