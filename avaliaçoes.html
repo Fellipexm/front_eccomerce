@@ -6,134 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avaliações</title>
     <link rel="icon" href="logo1.png">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color:lightblue;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: lightblue;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+        color: brown;
+        margin-bottom: 20px; /* Adicionado espaço abaixo do título */
+    }
+
+    #logo {
+        width: 130px;
+        margin-top: 20px; /* Adicionado espaço acima da imagem */
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 20px 0;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    #att {
+        color: darkred;
+        margin-top: 20px; /* Adicionado espaço acima do subtítulo */
+    }
+
+    @media only screen and (max-width: 600px) {
+        li {
+            position: relative;
+            left: -110px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         h1 {
-            position: relative;
-            top: -300px;
-
-            text-align: center;
-            left: 340px;
             color: brown;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px 0;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        li {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            margin: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .usuario {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .comentario {
-            margin-top: 5px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-        #seta {
-            position: absolute;
-            left: 230px;
-            top: 65px;
-
+            margin: 0; /* Removido o posicionamento relativo e ajustes de posição */
         }
 
         #att {
             position: absolute;
-            left: 10px;
-            top: 380px;
-            color: darkred;
+            left: 20px;
+            top: 650px;
+            color: royalblue;
+            margin-top: 0; /* Removido o posicionamento relativo e ajustes de posição */
+        }
+
+        #seta {
+            display: none;
         }
 
         #mobile {
-            display: none;
+            position: absolute;
+            left: 20px;
+            top: 650px;
         }
 
         #logo {
             position: absolute;
-            top: 180px;
-
+            top: 208px;
             width: 130px;
+            margin-top: 0; /* Removido o posicionamento relativo e ajustes de posição */
         }
+    }
+</style>
 
-        @media only screen and (max-width: 600px) {
-            li {
-                position: relative;
-                left: -110px;
-                width: 100%;
-                box-sizing: border-box;
-            }
 
-            h1 {
-                position: relative;
-                left: 100px;
-                color: brown;
-            }
-
-            #att {
-                position: absolute;
-                left: 20px;
-                top: 650px;
-                color: royalblue;
-
-            }
-
-            #seta {
-                display: none;
-            }
-
-            #mobile {
-                position: absolute;
-                left: 20px;
-                top: 650px;
-            }
-
-            #logo {
-
-                position: absolute;
-                top: 208px;
-
-                width: 130px;
-
-            }
-        }
-    </style>
 </head>
 
 <body>
