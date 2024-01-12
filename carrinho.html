@@ -13,7 +13,8 @@
     <div class="container">
         <h1>Carrinho de Compras 🛒 </h1>
         <ul id="carrinho-list"></ul>
-        <button onclick="compareSelected()">Comparar Itens Selecionados</button>
+        <button onclick="compareSelected()">Comprar</button>
+        <button onclick="deleteSelected()" id="excluir">Excluir</button>
         <p id="totalPrice">Total : R$0.00</p>
     </div>
 
@@ -41,7 +42,7 @@
                     const itemCheckbox = document.createElement("input");
                     itemCheckbox.type = "checkbox";
                     itemCheckbox.classList.add("compare-checkbox");
-                    itemCheckbox.dataset.index = index; // Adiciona um atributo para armazenar o índice
+                    itemCheckbox.dataset.index = index;
                     itemCheckbox.addEventListener("change", updateTotalPrice);
                     listItem.appendChild(itemCheckbox);
 
@@ -67,15 +68,14 @@
             checkboxes.forEach((checkbox, index) => {
                 if (checkbox.checked) {
                     selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
-                    checkbox.parentElement.remove(); // Remove o item da lista
+                    checkbox.parentElement.remove();
                 }
             });
 
-            // Remover os itens selecionados do carrinho
             const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
             let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
 
-            selectedItemsIndexes.sort((a, b) => b - a); // Ordena do maior índice para o menor
+            selectedItemsIndexes.sort((a, b) => b - a);
 
             selectedItemsIndexes.forEach(index => {
                 carrinhoItens.splice(index, 1);
@@ -83,7 +83,32 @@
 
             localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
 
-            updateTotalPrice(); // Atualiza o preço total
+            updateTotalPrice();
+        }
+
+        function deleteSelected() {
+            const checkboxes = document.querySelectorAll('.compare-checkbox');
+            const selectedItemsIndexes = [];
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
+                }
+            });
+
+            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+            let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+            selectedItemsIndexes.sort((a, b) => b - a);
+
+            selectedItemsIndexes.forEach(index => {
+                carrinhoItens.splice(index, 1);
+            });
+
+            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+            displayCartItems();
+            updateTotalPrice();
         }
 
         function updateTotalPrice() {
@@ -104,10 +129,45 @@
             const totalPriceElement = document.getElementById("totalPrice");
             totalPriceElement.textContent = `Total: R$${totalPrice.toFixed(2)}`;
         }
+
+        function compareSelected() {
+            const checkboxes = document.querySelectorAll('.compare-checkbox');
+            const selectedItemsIndexes = [];
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
+                    checkbox.parentElement.remove();
+                }
+            });
+
+            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+            let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+            selectedItemsIndexes.sort((a, b) => b - a);
+
+            selectedItemsIndexes.forEach(index => {
+                carrinhoItens.splice(index, 1);
+            });
+
+            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+            updateTotalPrice();
+
+            alert("Parabéns pela sua compra!");
+        }
+
+        function confirmDelete() {
+            // Confirmação antes de excluir os itens marcados
+            if (confirm("Você tem certeza que deseja excluir os itens marcados?")) {
+                deleteSelected();
+            }
+        }
+
     </script>
 
     <style>
-          body {
+        body {
             background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -175,7 +235,11 @@
             color: #fff;
             cursor: pointer;
         }
-
+          
+        #excluir {
+            background-color: red;
+            color: black;
+        }
         #totalPrice {
             font-weight: bold;
             margin-top: 10px;
