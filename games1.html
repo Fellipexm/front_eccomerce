@@ -124,7 +124,7 @@
 
     $(document).ready(function () {
         // Faz a requisição à API
-        $.get("http://192.168.0.104:3000/games", function (data) {
+        $.get("https://api-ecomerce-3iqr.onrender.com/games", function (data) {
             gamesData = data;  // Armazena os dados dos jogos
             filterGames();  // Inicia a exibição com todos os jogos
         });

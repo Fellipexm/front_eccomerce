@@ -39,7 +39,7 @@
         function loadGames() {
             const gameListContainer = document.getElementById("gameList");
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://172.16.31.43:3000/games", true);
+            xhr.open("GET", "https://api-ecomerce-3iqr.onrender.com/games", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4) {
