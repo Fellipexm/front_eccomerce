@@ -164,6 +164,45 @@
             }
         }
 
+
+
+        function compareSelected() {
+    const checkboxes = document.querySelectorAll('.compare-checkbox');
+    const selectedItemsIndexes = [];
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
+            checkbox.parentElement.remove();
+        }
+    });
+
+    const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+    let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+    selectedItemsIndexes.sort((a, b) => b - a);
+
+    const itemsToMoveToUserPage = [];
+
+    selectedItemsIndexes.forEach(index => {
+        const selectedItem = carrinhoItens[index];
+        itemsToMoveToUserPage.push(selectedItem);
+        carrinhoItens.splice(index, 1);
+    });
+
+    localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
+
+    updateTotalPrice();
+
+    // Armazena temporariamente os itens na localStorage para acessá-los na página "usuario.html"
+    localStorage.setItem('itemsToMoveToUserPage', JSON.stringify(itemsToMoveToUserPage));
+
+    // Redireciona para usuario.html após a compra
+    alert("Parabéns pela sua compra!");
+    window.location.href = "usuario.html";
+}
+
+
     </script>
 
     <style>

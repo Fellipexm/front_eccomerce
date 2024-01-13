@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #c3e6cb; /* Cor corrigida para verde claro */
+            background-color: #c3e6cb;
             margin: 0;
             display: flex;
             align-items: center;
@@ -86,19 +86,60 @@
             background-color: red;
         }
 
+        #senha {
+            position: absolute;
+            top: 630px;
+            left: 760px;
+        }
+
+        #gmail {
+
+            background-color:royalblue;
+            position: absolute;
+            top: 630px;
+            left: 1100px;
+            width: 100px;
+
+
+        }
+
+        #gmail:hover {
+            background-color: red;
+        }
+        
+        #sair:hover {
+            background-color: lightgrey;
+        }
+
         @media (max-width: 768px) {
-                   
             #sair {
                 position: absolute;
                 top: 630px;
-                left: 170px;
+                left: 160px;
                 background-color: red;
             }
-           #user-section {
-            position: absolute;
+            #user-section {
+                position: absolute;
                 max-width: 100px;
-           }
+            }
+            #senha {
+                background-color: blue;
+                position: absolute;
+                left: 30px;
+                top: 630px;
+                width: 100px;
+            }
 
+            #gmail {
+
+                background-color:royalblue;
+                position: absolute;
+                left: 300px;
+                top: 630px;
+                width: 100px;
+
+
+            }
         }
     </style>
 </head>
@@ -109,17 +150,17 @@
         </header>
         <section class="user-section">
             <label for="username">Olá, <span id="username-display"></span>!</label>
-            <button onclick="displayGreeting()">Mostrar Saudação</button>
+            <button onclick="displayGreeting()"> Saudação <span id="username-display"></span></button>
             <p id="greeting"></p>
         </section>
         <section class="order-history">
-            <h2>Histórico de Pedidos</h2>
             <!-- Aqui você pode adicionar informações sobre os pedidos do usuário -->
         </section>
     </div>
   
-    <a href="index.html"> <button id="sair">Sair da Conta</button></a>
-
+    <a href="index.html"><button id="sair">Sair da Conta</button></a>
+    <button onclick="recoverPassword()" id="senha">Troca senha</button>
+    <button onclick="recoverGmail()" id="gmail">Trocar Gmail</button>
 
     <script>
         function displayGreeting() {
@@ -127,9 +168,63 @@
             var greeting = document.getElementById('greeting');
             greeting.innerHTML = 'Olá, ' + username + '! Bem-vindo à sua conta na nossa loja.';
         }
+
+        function recoverPassword() {
+            var accountName = prompt("Digite o nome da conta:");
+            var userEmail = prompt("Digite o e-mail associado à conta:");
         
+            // Faz uma requisição à API para verificar os dados do usuário
+            fetch('https://users-93jf.onrender.com/api/listar-usuarios')
+                .then(response => response.json())
+                .then(data => {
+                    // Verifica se o nome da conta e o e-mail estão corretos
+                    var user = data.usuarios.find(u => u.nome === accountName && u.gmail === userEmail);
+        
+                    if (user) {
+                        var newPassword = prompt("Digite a nova senha:");
+        
+                        // Adicionando informações de debug
+                        console.log('Dados antes da atualização:', { userId: user.id, newPassword });
+        
+                        // Faz a requisição para atualizar a senha
+                        fetch('https://users-93jf.onrender.com/api/atualizar-senha', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                userId: user.id,
+                                newPassword: newPassword,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            // Adicionando informações de debug
+                            console.log('Resposta da API (após a atualização):', result);
+        
+                            if (result.success) {
+                                alert("Senha alterada com sucesso!");
+                            } else {
+                                alert("Erro ao alterar a senha.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro ao recuperar dados do usuário:', error);
+                            alert("Erro ao recuperar dados do usuário.");
+                        });
+                    } else {
+                        // Se os dados estiverem incorretos, exibe uma mensagem de erro
+                        alert("Dados incorretos. Não foi possível alterar a senha.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao recuperar dados do usuário:', error);
+                    alert("Erro ao recuperar dados do usuário.");
+                });
+        }
+        
+
         document.addEventListener('DOMContentLoaded', function () {
-            // Função para obter parâmetros da URL
             function getParameterByName(name, url) {
                 if (!url) url = window.location.href;
                 name = name.replace(/[\[\]]/g, "\\$&");
@@ -139,21 +234,70 @@
                 if (!results[2]) return '';
                 return decodeURIComponent(results[2].replace(/\+/g, " "));
             }
-        
-            // Obtém o nome de usuário da URL
+
             var username = getParameterByName('username');
-        
-            // Exibe o nome de usuário na página
             var usernameDisplay = document.getElementById('username-display');
             if (username) {
-                // Capitaliza a primeira letra do nome de usuário
                 username = username.charAt(0).toUpperCase() + username.slice(1);
                 usernameDisplay.innerText = username;
             } else {
-                // Valor padrão se não houver nome de usuário na URL
                 usernameDisplay.innerText = 'Visitante';
             }
         });
+
+        function recoverGmail() {
+            var accountName = prompt("Digite o nome da conta:");
+            var userPassword = prompt("Digite a senha da conta:");
+        
+            // Faz uma requisição à API para verificar os dados do usuário
+            fetch('https://users-93jf.onrender.com/api/listar-usuarios')
+                .then(response => response.json())
+                .then(data => {
+                    // Verifica se o nome da conta e a senha estão corretos
+                    var user = data.usuarios.find(u => u.nome === accountName && u.senha === userPassword);
+        
+                    if (user) {
+                        var newGmail = prompt("Digite o novo Gmail:");
+        
+                        // Adicionando informações de debug
+                        console.log('Dados antes da atualização:', { userId: user.id, newGmail });
+        
+                        // Faz a requisição para atualizar o Gmail
+                        fetch('https://users-93jf.onrender.com/api/atualizar-gmail', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                userId: user.id,
+                                newGmail: newGmail,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            // Adicionando informações de debug
+                            console.log('Resposta da API (após a atualização):', result);
+        
+                            if (result.success) {
+                                alert("Gmail alterado com sucesso!");
+                            } else {
+                                alert("Erro ao alterar o Gmail.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro ao recuperar dados do usuário:', error);
+                            alert("Erro ao recuperar dados do usuário.");
+                        });
+                    } else {
+                        // Se os dados estiverem incorretos, exibe uma mensagem de erro
+                        alert("Dados incorretos. Não foi possível alterar o Gmail.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao recuperar dados do usuário:', error);
+                    alert("Erro ao recuperar dados do usuário.");
+                });
+        }
     </script>
 </body>
 </html>
