@@ -108,9 +108,13 @@
             </div>
         </section>
     
-   <a href="index.html"> <button id="sair">Sair</button></a>
 
-     
+
+   <a href="usuario.html?username=" id="user-account-link">
+    <img src="https://i.postimg.cc/yNkz32FS/use123-removebg-preview.png" alt="Descrição da imagem" id="usuario">
+</a>
+
+
 
     </main>
     <script src="pages/script.js"></script>
@@ -367,6 +371,20 @@
         }
 
         document.addEventListener('keydown', disableArrowKeys);
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            var usernameSpan = document.getElementById('username');
+            var userAccountLink = document.getElementById('user-account-link');
+        
+            // Adiciona um evento de clique ao link
+            userAccountLink.addEventListener('click', function (event) {
+                // Pega o nome de usuário
+                var username = usernameSpan.innerText.trim();
+        
+                // Atualiza o href do link com o nome de usuário como parâmetro de consulta
+                userAccountLink.href = 'usuario.html?username=' + encodeURIComponent(username);
+            });
+        });
         
    
     </script>

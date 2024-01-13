@@ -1,6 +1,7 @@
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0px;;
+    margin: 0px;
+    ;
     padding: 0;
     background-color: #f4f4f4;
 }
@@ -45,6 +46,7 @@ main {
 #accessories {
     background-color: lightblue;
 }
+
 .game-section,
 .product {
     width: 30%;
@@ -129,15 +131,7 @@ main {
     background-color: #f0f0f0;
 }
 
-#sair {
-    position: absolute;
-    border-radius: 50px;
-    top: 40px;
-    left: 280px;
-    background-color: red;
-    cursor: pointer;
-
-}
+#sair {}
 
 #carinho {
     position: relative;
@@ -163,7 +157,8 @@ main {
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Ajuste a largura conforme necessário */
+    width: 300px;
+    /* Ajuste a largura conforme necessário */
 }
 
 #user-rating label {
@@ -179,7 +174,7 @@ main {
 }
 
 #user-rating button {
-    
+
     background-color: #4CAF50;
     color: #fff;
     border: none;
@@ -207,10 +202,20 @@ main {
 }
 
 
+#usuario {
+    position: absolute;
+    border-radius: 50px;
+    top:20px;
+    left: 280px;
+    width: 80px;
+    cursor: pointer;
+}
+
 
 
 
 @media (max-width: 768px) {
+
     .game-section,
     .product {
         width: 100%;
@@ -244,35 +249,37 @@ main {
         right: 29px;
         top: -4px;
     }
-    
+
     #login {
         position: relative;
-        top: 10px; /* Adjust the top position as needed */
+        top: 10px;
+        /* Adjust the top position as needed */
         left: 30px;
         width: 100px;
     }
-    
+
     #cadastrar {
         position: relative;
         top: 10px;
         left: 100px;
-        margin-left: 10px; /* Adjust the margin as needed */
+        margin-left: 10px;
+        /* Adjust the margin as needed */
     }
 
-    #sair {
+    #usuario {
         position: absolute;
-        top: 115px;
+        top: 137px;
         left: 173px;
-        background-color: red;
-        width: 100px;
-        color: white;
-    
+       
+        width: 46px;
+   
+
     }
 
     #user-rating {
         position: relative;
-        top: 10px ;
+        top: 10px;
         left: -10px;
     }
-    
+
 }
