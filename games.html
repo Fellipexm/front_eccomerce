@@ -7,6 +7,105 @@
     <title>Games</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://i.postimg.cc/SKMDjfhV/logo1.png">
+    <style>
+        body {
+            background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            color: #555;
+            flex: 1 1 100%;
+            margin-bottom: 10px;
+        }
+
+        input#filterInput,
+        select#categoryFilter {
+            flex: 1 1 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            border: 1px solid #555;
+            cursor: grab;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px; /* Espaçamento entre os cards */
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+            width: calc(25% - 20px); /* Alterado para ocupar 25% da largura da tela com espaço entre eles */
+            box-sizing: border-box;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        button.add-to-cart-button {
+            background-color: blue;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            label,
+            input#filterInput,
+            select#categoryFilter {
+                width: 100%;
+            }
+
+            .card {
+                width: calc(100% - 20px);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -14,15 +113,12 @@
         <h1>Jogos da Game Store</h1>
         <div class="filters">
             <label for="filterInput">Pesquisar Game:</label>
-            <input type="text" id="filterInput">
+            <input type="text" id="filterInput" oninput="filterGames('nome_do_jogo')">
 
             <label for="categoryFilter">Categoria:</label>
-            <select id="categoryFilter">
+            <select id="categoryFilter" onchange="filterGames('categoria')">
                 <option value="">Todas as Categorias</option>
             </select>
-
-            <button onclick="filterGames('nome_do_jogo')">Filtrar por Nome</button>
-            <button onclick="filterGames('categoria')">Filtrar por Categoria</button>
         </div>
         <div id="gameList" class="card-container"></div>
     </div>

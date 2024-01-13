@@ -34,7 +34,7 @@
             const consoleListContainer = document.getElementById("consoleList");
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://172.16.31.43:3000/consoles", true);
+            xhr.open("GET", "https://api-ecomerce-3iqr.onrender.com/consoles", true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
