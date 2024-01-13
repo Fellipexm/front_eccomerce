@@ -141,7 +141,7 @@
 
         async function checkUserInDatabase(fullName, password, gmail) {
             try {
-                const response = await fetch("http://192.168.15.9:3080/api/listar-usuarios");
+                const response = await fetch("http://192.168.0.104:3080/api/listar-usuarios");
                 const { usuarios } = await response.json();
 
                 var foundUser = usuarios.find(function (user) {

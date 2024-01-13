@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend da API de Jogos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #games-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .game-card {
+            border: none;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 10px;
+            max-width: 250px;
+            width: 100%;
+            background-color: lightskyblue; /* Amarelo */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+        h2 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            line-height: 1.4;
+        }
+        strong {
+            font-weight: bold;
+            color: #333;
+        }
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            text-decoration: none; /* Remover sublinhado dos links */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .buy-button:hover {
+            background-color: #555;
+        }
+        
+        #filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .filter-label {
+            margin-right: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        .filter-input {
+            padding: 8px;
+            margin: 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+       
+        /* Estilos responsivos para dispositivos móveis */
+        @media only screen and (max-width: 600px) {
+            .game-card {
+                max-width: 100%;
+            }
+            .filter-input {
+                width: 80%;
+                margin: 0 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Lista de Jogos</h1>
+
+<div id="filter-container">
+    <label for="filter-name" class="filter-label">Nome do Jogo:</label>
+    <input type="text" id="filter-name" class="filter-input" oninput="filterGames()">
+    <label for="filter-category" class="filter-label">Categoria:</label>
+    <input type="text" id="filter-category" class="filter-input" oninput="filterGames()">
+</div>
+
+<div id="games-container"></div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    var gamesData;  // Variável para armazenar todos os jogos
+
+    $(document).ready(function () {
+        // Faz a requisição à API
+        $.get("http://192.168.0.104:3000/games", function (data) {
+            gamesData = data;  // Armazena os dados dos jogos
+            filterGames();  // Inicia a exibição com todos os jogos
+        });
+    });
+
+    // Função para exibir os jogos na página com base nos critérios de filtro
+    function filterGames() {
+        var filterName = $("#filter-name").val().toLowerCase();
+        var filterCategory = $("#filter-category").val().toLowerCase();
+
+        // Filtra os jogos com base nos critérios
+        var filteredGames = gamesData.filter(function (game) {
+            var lowerCaseNome = game.nome_do_jogo.toLowerCase();
+            var lowerCaseCategoria = game.categoria.toLowerCase();
+
+            return lowerCaseNome.includes(filterName) && lowerCaseCategoria.includes(filterCategory);
+        });
+
+        displayGames(filteredGames);  // Exibe os jogos filtrados
+    }
+
+    // Função para exibir os jogos na página
+    function displayGames(games) {
+        // Limpa o conteúdo anterior
+        $("#games-container").empty();
+
+        // Itera sobre os jogos e exibe cada um
+        games.forEach(function (game) {
+            displayGame(game);
+        });
+    }
+
+    // Função para exibir um jogo na página
+    function displayGame(game) {
+        var gameCard = '<div class="game-card">' +
+                            '<img src="' + game.imagem + '" alt="' + game.nome_do_jogo + '">' +
+                            '<h2>' + game.nome_do_jogo + '</h2>' +
+                            '<p>' + game.descricao + '</p>' +
+                            '<p><strong>Categoria:</strong> ' + game.categoria + '</p>' +
+                            '<p><strong>Valor:</strong> $' + game.valor + '</p>' +
+                            '<a href="login.html"><button class="buy-button" onclick="showAlert()">Comprar</button></a>' +
+                        '</div>';
+
+        var $gameCard = $(gameCard);
+        $("#games-container").append($gameCard);
+    }
+
+    // Função para mostrar o alerta
+    window.showAlert = function () {
+        alert('Para continuar comprando, é necessário realizar o login!');  // Exibe um alerta simples
+    };
+</script>
+
+</body>
+</html>
