@@ -131,9 +131,11 @@ main {
 
 #sair {
     position: absolute;
-    top: 30px;
+    border-radius: 50px;
+    top: 40px;
     left: 280px;
     background-color: red;
+    cursor: pointer;
 
 }
 
@@ -206,6 +208,8 @@ main {
 
 
 
+
+
 @media (max-width: 768px) {
     .game-section,
     .product {
@@ -256,10 +260,12 @@ main {
     }
 
     #sair {
-        position: relative;
-        top: 10px;
+        position: absolute;
+        top: 115px;
         left: 173px;
         background-color: red;
+        width: 100px;
+        color: white;
     
     }
 

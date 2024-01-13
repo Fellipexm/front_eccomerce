@@ -234,6 +234,7 @@
             window.location.href = "carrinho.html?" + params.toString();
         }
 
+
         function addToCart(gameData) {
             const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
             carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
@@ -243,8 +244,10 @@
             localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
 
             updateCartDisplay();
+            alert('Jogo adicionado ao carrinho!');
         }
 
+   
         function updateCartDisplay() {
             const carrinhoListContainer = document.getElementById("carrinho-list");
             carrinhoListContainer.innerHTML = '';
