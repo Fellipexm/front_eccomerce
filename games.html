@@ -59,7 +59,7 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
-            gap: 20px; /* Espaçamento entre os cards */
+            gap: 20px;
         }
 
         .card {
@@ -70,12 +70,21 @@
             text-align: center;
             background-color: #fff;
             transition: transform 0.3s ease-in-out;
-            width: calc(25% - 20px); /* Alterado para ocupar 25% da largura da tela com espaço entre eles */
+            width: calc(25% - 20px);
             box-sizing: border-box;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: scale(1.05);
+        .card h2 {
+
+            margin-bottom: 10px;
+            max-height: 90px;
+            overflow: hidden;
+        }
+
+        .card p {
+            max-height: 80px;
+            overflow: hidden;
         }
 
         .card img {
@@ -95,13 +104,11 @@
         }
 
         @media screen and (max-width: 600px) {
-
             body {
-                 background-color: aqua;
-                 color: black;
+                background-color: aqua;
+                color: black;
             }
 
-            
             label,
             input#filterInput,
             select#categoryFilter {
@@ -112,18 +119,40 @@
                 color: #333;
                 font-family: 'Minecraft Regular', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }
-        
+
             .card {
-                width: 100%; /* Alterei a largura para 100% para ocupar toda a largura da tela */
-                height: 830px; /* Ajuste a altura conforme necessário */
+                width: 100%;
+                height: 830px;
                 background-color: lightblue;
-                border-radius: 10px; /* Ou qualquer valor desejado para fazer os cantos arredondados */
+                border-radius: 10px;
             }
 
             h1 {
                 color: #333;
                 font-family: 'Minecraft Regular', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             }
+        }
+
+        .rating-section {
+            margin-top: 10px;
+        }
+
+        .rating-section input {
+            display: none;
+        }
+
+        .rating-section label {
+            font-size: 24px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .rating-section label:before {
+            content: '★';
+        }
+
+        .rating-section input:checked~label:before {
+            color: gold;
         }
     </style>
 </head>
@@ -146,7 +175,7 @@
     <script>
         let games = [];
         let carrinhoItens = [];
-        3
+
         document.addEventListener("DOMContentLoaded", function () {
             loadGames();
             updateCartDisplay();
@@ -161,6 +190,11 @@
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
                         games = JSON.parse(xhr.responseText);
+                        games.forEach((game, index) => {
+                            game.id = index + 1;
+                        });
+
+                        loadSavedRatings();
                         displayGames(games);
                         fillCategoryDropdown(games);
                     } else {
@@ -230,8 +264,28 @@
                 addToCartButton.textContent = "Adicionar ao Carrinho";
                 addToCartButton.classList.add("add-to-cart-button");
                 addToCartButton.addEventListener("click", function () {
-                    addToCart(gameData);  // Correção aqui, passando gameData diretamente
+                    addToCart(gameData);
                 });
+
+                const ratingSection = document.createElement("div");
+                ratingSection.classList.add("rating-section");
+
+                for (let i = 5; i >= 1; i--) {
+                    const starInput = document.createElement("input");
+                    starInput.type = "checkbox";
+                    starInput.id = `star-${gameData.id}-${i}`;
+                    starInput.name = `rating-${gameData.id}`;
+                    starInput.value = i;
+                    starInput.addEventListener("click", function () {
+                        rateGame(this, gameData.id);
+                    });
+
+                    const starLabel = document.createElement("label");
+                    starLabel.htmlFor = `star-${gameData.id}-${i}`;
+
+                    ratingSection.appendChild(starInput);
+                    ratingSection.appendChild(starLabel);
+                }
 
                 card.appendChild(title);
                 card.appendChild(description);
@@ -239,21 +293,11 @@
                 card.appendChild(price);
                 card.appendChild(image);
                 card.appendChild(addToCartButton);
+                card.appendChild(ratingSection);
 
                 gameListContainer.appendChild(card);
             });
         }
-
-        function addToCartAndRedirect(gameId) {
-            const gameData = games.find(game => game.id === gameId);
-            addToCart(gameData);
-            const params = new URLSearchParams();
-            params.append('nome_do_jogo', gameData.nome_do_jogo || "Nome não disponível");
-            params.append('descricao', gameData.descricao || "Descrição não disponível");
-            params.append('id', gameData.id);
-            window.location.href = "carrinho.html?" + params.toString();
-        }
-
 
         function addToCart(gameData) {
             const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
@@ -267,7 +311,33 @@
             alert('Jogo adicionado ao carrinho!');
         }
 
-   
+        function rateGame(checkbox, gameId) {
+            const gameToUpdate = games.find(game => game.id === gameId);
+
+            if (gameToUpdate) {
+                gameToUpdate.rating = parseInt(checkbox.value);
+                saveRating(gameId, parseInt(checkbox.value));
+                alert(`Você avaliou ${gameToUpdate.nome_do_jogo} com ${checkbox.value} estrela(s)`);
+            }
+        }
+
+        function loadSavedRatings() {
+            for (let i = 1; i <= games.length; i++) {
+                const savedRating = localStorage.getItem(`rating-${i}`);
+
+                if (savedRating !== null) {
+                    const starInput = document.getElementById(`star-${i}-${savedRating}`);
+                    if (starInput) {
+                        starInput.checked = true;
+                    }
+                }
+            }
+        }
+
+        function saveRating(gameId, rating) {
+            localStorage.setItem(`rating-${gameId}`, rating);
+        }
+
         function updateCartDisplay() {
             const carrinhoListContainer = document.getElementById("carrinho-list");
             carrinhoListContainer.innerHTML = '';
@@ -296,10 +366,6 @@
                 });
             }
         }
-
-
-
-    
     </script>
 </body>
 
