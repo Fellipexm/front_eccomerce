@@ -22,7 +22,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             displayCartItems();
         });
-           
+
         function displayCartItems() {
             const carrinhoListContainer = document.getElementById("carrinho-list");
             carrinhoListContainer.innerHTML = '';
@@ -62,18 +62,19 @@
         }
 
         function promptForUserInfo() {
+            const email = prompt("Por favor, digite seu e-mail:");
             const phoneNumber = prompt("Por favor, digite seu número de telefone:");
             const address = prompt("Por favor, digite seu endereço de entrega:");
             const cpf = prompt("Por favor, digite seu CPF:");
 
-            if (phoneNumber && address && cpf) {
-                processOrder(phoneNumber, address, cpf);
+            if (email && phoneNumber && address && cpf) {
+                processOrder(email, phoneNumber, address, cpf);
             } else {
                 alert("Por favor, preencha todas as informações.");
             }
         }
 
-        function processOrder(phoneNumber, address, cpf) {
+        function processOrder(email, phoneNumber, address, cpf) {
             const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
             const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
 
@@ -108,7 +109,7 @@
 
             localStorage.setItem('itemsToMoveToUserPage', JSON.stringify(itemsToMoveToUserPage));
 
-            alert(`Parabéns pela sua compra!\n\nO produto será entregue em breve no seguinte endereço:\n\n${address}\nTelefone: ${phoneNumber}\nCPF: ${cpf}`);
+            alert(`Parabéns pela sua compra!\n\nO produto será entregue em breve no seguinte endereço:\n\n${address}\nTelefone: ${phoneNumber}\nCPF: ${cpf}\nE-mail: ${email}`);
         }
 
         function confirmDelete() {
@@ -169,6 +170,7 @@
             totalPriceElement.textContent = `Total: R$${totalPrice.toFixed(2)}`;
         }
     </script>
+
 
   
 </body>
