@@ -10,41 +10,45 @@
 </head>
 
 <body>
+    <div id="loading-component" style="display: none;">
+        <p>Enviando avaliação. Aguarde...</p>
+    </div>
+
     <header>
         <h1>Game Store</h1>
         <img src="assets/mario-removebg-preview.png" alt="marios" id="mario">
         <img src="assets/ps5-removebg-preview.png" alt="marios" id="console1">
     </header>
+
     <div class="carousel-container">
         <img src="assets/logo1.png" alt="gamestore" id="logo">
     </div>
+
     <div class="login">
     </div>
+
     <main>
-       <section id="user-welcome" class="game-section">
+        <section id="user-welcome" class="game-section">
             <h2>Bem-vindo, <span id="username"></span>!</h2>
             <div class="sobre-nos-content">
                 <p>
                     Querido amigo(a), <span id="username"></span> sua presença ilumina nossa loja! 🌟 Explore as últimas
                     novidades, entregue-se ao encanto e divirta-se em cada detalhe. Estamos aqui para tornar sua
                     experiência única e inesquecível. 💖✨
-
                 </p>
 
                 <img src="https://i.postimg.cc/XqvYJx2f/bem-vinsdo-removebg-preview.png" style="width: 300px;">
                 <div id="games-products" class="products"></div>
 
-                <!-- Adicionando o campo de avaliação -->
                 <div id="user-rating">
                     <label for="userReview">Deixe sua avaliação, <span id="usernameInReview"></span>:</label>
                     <textarea id="userReview" rows="4" cols="50"></textarea>
                     <button onclick="submitReview()">Enviar Avaliação</button>
-                   <a href="https://avalia-oes-do-ecom.vercel.app/"> <button>Ver Avaliações</button></a> 
-
+                    <a href="https://avalia-oes-do-ecom.vercel.app/"><button>Ver Avaliações</button></a>
                 </div>
             </div>
         </section>
-  
+
         <section id="games" class="game-section">
             <a href="games.html"><img src="https://i.postimg.cc/d3LfHTHR/Black-and-Yellow-Minimalist-Player-Gaming-Logo-removebg-preview.png" id="jogo"></a>
             <div class="sobre-nos-content">
@@ -56,7 +60,6 @@
                     para você. Descubra as últimas novidades, garanta prévias exclusivas e junte-se a uma comunidade
                     apaixonada por games. Na nossa loja, a diversão é garantida e a próxima grande aventura está prestes
                     a começar. Prepare-se para jogar, competir e se emocionar no universo dos games!
-
                 </p>
                 <div id="games-products" class="products"></div>
             </div>
@@ -73,7 +76,6 @@
                     de jogar seus títulos favoritos diretamente do seu console e mergulhe em mundos virtuais cheios de
                     aventuras. Prepare-se para horas de entretenimento ininterrupto - na nossa loja, os consoles que
                     você sempre desejou estão ao seu alcance. O próximo nível de diversão começa aqui!
-
                 </p>
                 <div id="consoles-products" class="products"></div>
             </div>
@@ -83,11 +85,10 @@
             <a href="carrinho.html" id="carrinho-link">
                 <img src="https://i.postimg.cc/4dQq75D3/carinho-removebg-preview.png" id="carinho">
             </a>
-                <p> Clique no Ícone⬆️</p><br>
-                <p>
-                    Conclua sua compra ou faça sua primeira compra agora mesmo! 
-                </p>
-            </div>
+            <p> Clique no Ícone⬆️</p><br>
+            <p>
+                Conclua sua compra ou faça sua primeira compra agora mesmo!
+            </p>
             <div id="accessories-products" class="products"></div>
         </section>
 
@@ -96,34 +97,25 @@
             <div class="sobre-nos-content">
                 <p>
                     Bem-vindo à "Game Store", sua loja virtual definitiva para tudo relacionado a jogos! Explore nosso
-                    vasto
-                    catálogo de jogos, consoles e acessórios, com ofertas especiais e descontos exclusivos. Priorizamos
-                    sua
-                    conveniência e segurança, proporcionando uma experiência de compra fácil e protegida. Além de uma
-                    loja, somos
-                    uma comunidade gamer, oferecendo interatividade, discussões e eventos exclusivos. Junte-se a nós na
-                    "Game
-                    Store", onde a diversão e a paixão pelos jogos se encontram!
+                    vasto catálogo de jogos, consoles e acessórios, com ofertas especiais e descontos exclusivos.
+                    Priorizamos sua conveniência e segurança, proporcionando uma experiência de compra fácil e protegida.
+                    Além de uma loja, somos uma comunidade gamer, oferecendo interatividade, discussões e eventos
+                    exclusivos. Junte-se a nós na "Game Store", onde a diversão e a paixão pelos jogos se encontram!
                 </p>
             </div>
         </section>
-    
 
-
-   <a href="usuario.html?username=" id="user-account-link">
-    <img src="https://i.postimg.cc/yNkz32FS/use123-removebg-preview.png" alt="Descrição da imagem" id="usuario">
-</a>
-
-
+        <a href="usuario.html?username=" id="user-account-link">
+            <img src="https://i.postimg.cc/yNkz32FS/use123-removebg-preview.png" alt="Descrição da imagem" id="usuario">
+        </a>
 
     </main>
-    <script src="pages/script.js"></script>
     <script>
         window.onload = function () {
             carregarComentarios();
             exibirSaudacao();
         };
-    
+
         function exibirSaudacao() {
             var username = localStorage.getItem('username');
             if (username) {
@@ -131,27 +123,32 @@
                 document.getElementById('usernameInReview').innerText = username;
             }
         }
-    
+
         function submitReview() {
+            var loadingComponent = document.getElementById('loading-component');
+            loadingComponent.style.display = 'block';
+
             var username = document.getElementById('username').innerText;
             var reviewText = document.getElementById('userReview').value;
-    
+
             if (!username) {
                 alert('Você precisa estar logado para enviar uma avaliação.');
+                loadingComponent.style.display = 'none';
                 return;
             }
-    
+
             if (!reviewText) {
                 alert('Por favor, digite sua avaliação antes de enviar.');
+                loadingComponent.style.display = 'none';
                 return;
             }
-    
+
             var data = {
                 usuario: username,
                 comentario: reviewText
             };
-    
-            fetch(' https://avaliacoes-js.onrender.com/adicionar_comentario', {
+
+            fetch('https://avaliacoes-js.onrender.com/adicionar_comentario', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -166,9 +163,12 @@
                 })
                 .catch((error) => {
                     console.error('Erro ao enviar avaliação:', error);
+                })
+                .finally(() => {
+                    loadingComponent.style.display = 'none';
                 });
         }
-        
+
         function carregarComentarios() {
             fetch('http://192.168.56.1:5000/listar_comentarios')
                 .then(response => response.json())
@@ -179,20 +179,30 @@
                     console.error('Erro ao carregar comentários:', error);
                 });
         }
-        
+
         function exibirComentarios(comentarios) {
             var comentariosContainer = document.getElementById('comentarios-container');
-        
+
             comentariosContainer.innerHTML = '';
-        
+
             comentarios.forEach(function (comentario) {
-                var comentarioElement = document.createElement('div');
-                comentarioElement.className = 'comentario';
-                comentarioElement.innerHTML = '<strong>' + comentario.usuario + ':</strong> ' + comentario.comentario;
-                comentariosContainer.appendChild(comentarioElement);
+                var comentarioCard = document.createElement('div');
+                comentarioCard.className = 'comentario-card';
+
+                var usuarioElement = document.createElement('p');
+                usuarioElement.className = 'comentario-usuario';
+                usuarioElement.innerText = 'Usuário: ' + comentario.usuario;
+                comentarioCard.appendChild(usuarioElement);
+
+                var comentarioElement = document.createElement('p');
+                comentarioElement.className = 'comentario-texto';
+                comentarioElement.innerText = 'Comentário: ' + comentario.comentario;
+                comentarioCard.appendChild(comentarioElement);
+
+                comentariosContainer.appendChild(comentarioCard);
             });
         }
-        
+
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
             name = name.replace(/[\[\]]/g, "\\$&");
@@ -202,166 +212,14 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        
+
         var username = getParameterByName('username');
-        
+
         document.getElementById('username').innerText = username;
         document.getElementById('usernameInReview').innerText = username;
-        
-        function submitReview() {
-            var username = document.getElementById('username').innerText;
-            var reviewText = document.getElementById('userReview').value;
-        
-            if (!reviewText) {
-                alert('Por favor, digite sua avaliação antes de enviar.');
-                return;
-            }
-        
-            var data = {
-                usuario: username,
-                comentario: reviewText
-            };
-        
-            fetch('https://avaliacoes-js.onrender.com/adicionar_comentario', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.mensagem);
-                    document.getElementById('userReview').value = '';
-                    carregarComentarios(); // Adiciona essa linha para recarregar os comentários após o envio de um novo
-                })
-                .catch((error) => {
-                    console.error('Erro ao enviar avaliação:', error);
-                });
-        }
-
-
-        function exibirComentarios(comentarios) {
-            var comentariosContainer = document.getElementById('comentarios-container');
-        
-            comentariosContainer.innerHTML = '';
-        
-            comentarios.forEach(function (comentario) {
-                var comentarioCard = document.createElement('div');
-                comentarioCard.className = 'comentario-card';
-        
-                var usuarioElement = document.createElement('p');
-                usuarioElement.className = 'comentario-usuario';
-                usuarioElement.innerText = 'Usuário: ' + comentario.usuario;
-                comentarioCard.appendChild(usuarioElement);
-        
-                var comentarioElement = document.createElement('p');
-                comentarioElement.className = 'comentario-texto';
-                comentarioElement.innerText = 'Comentário: ' + comentario.comentario;
-                comentarioCard.appendChild(comentarioElement);
-        
-                comentariosContainer.appendChild(comentarioCard);
-            });
-        }
-
 
         document.addEventListener('DOMContentLoaded', function () {
             carregarComentarios();
-        });
-        
-        function carregarComentarios() {
-            fetch('http://192.168.56.1:5000/listar_comentarios')
-                .then(response => response.json())
-                .then(data => {
-                    exibirComentarios(data);
-                })
-                .catch((error) => {
-                    console.error('Erro ao carregar comentários:', error);
-                });
-        }
-        
-        function exibirComentarios(comentarios) {
-            var comentariosContainer = document.getElementById('comentarios-container');
-        
-            comentariosContainer.innerHTML = '';
-        
-            comentarios.forEach(function (comentario) {
-                var comentarioCard = document.createElement('div');
-                comentarioCard.className = 'comentario-card';
-        
-                var usuarioElement = document.createElement('p');
-                usuarioElement.className = 'comentario-usuario';
-                usuarioElement.innerText = 'Usuário: ' + comentario.usuario;
-                comentarioCard.appendChild(usuarioElement);
-        
-                var comentarioElement = document.createElement('p');
-                comentarioElement.className = 'comentario-texto';
-                comentarioElement.innerText = 'Comentário: ' + comentario.comentario;
-                comentarioCard.appendChild(comentarioElement);
-        
-                comentariosContainer.appendChild(comentarioCard);
-            });
-        }
-        function submitReview() {
-            var username = document.getElementById('username').innerText;
-            var reviewText = document.getElementById('userReview').value;
-        
-            if (!username) {
-                alert('Você precisa estar logado para enviar uma avaliação.');
-                return;
-            }
-        
-            if (!reviewText) {
-                alert('Por favor, digite sua avaliação antes de enviar.');
-                return;
-            }
-        
-            var data = {
-                usuario: username,
-                comentario: reviewText
-            };
-        
-            fetch('https://avaliacoes-js.onrender.com/adicionar_comentario', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.mensagem);
-                    document.getElementById('userReview').value = '';
-                    carregarComentarios();
-                })
-                .catch((error) => {
-                    console.error('Erro ao enviar avaliação:', error);
-                });
-        }
-        
-        document.addEventListener('DOMContentLoaded', function () {
-            var carrinhoLink = document.getElementById('carrinho-link');
-            carrinhoLink.addEventListener('mouseover', function () {
-                var usernameSpan = document.getElementById('username');
-                var username = usernameSpan.innerText.trim();
-                if (username === '') {
-                    carrinhoLink.style.cursor = 'not-allowed';
-                    carrinhoLink.removeAttribute('href'); // Remove o atributo 'href' para desativar o link
-                }
-            });
-        });
-   
-        history.pushState(null, null, document.URL);
-
-        window.addEventListener('popstate', function () {
-            history.pushState(null, null, document.URL);
-        });
-    
-        
-        history.pushState(null, null, document.URL);
-
-        window.addEventListener('popstate', function () {
-            history.pushState(null, null, document.URL);
         });
 
         function disableArrowKeys(e) {
@@ -371,24 +229,18 @@
         }
 
         document.addEventListener('keydown', disableArrowKeys);
-        
+
         document.addEventListener('DOMContentLoaded', function () {
             var usernameSpan = document.getElementById('username');
             var userAccountLink = document.getElementById('user-account-link');
-        
-            // Adiciona um evento de clique ao link
+
             userAccountLink.addEventListener('click', function (event) {
-                // Pega o nome de usuário
                 var username = usernameSpan.innerText.trim();
-        
-                // Atualiza o href do link com o nome de usuário como parâmetro de consulta
+
                 userAccountLink.href = 'usuario.html?username=' + encodeURIComponent(username);
             });
         });
-        
-   
     </script>
-    
 </body>
 
 </html>

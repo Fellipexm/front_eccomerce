@@ -103,12 +103,23 @@
 
         }
 
+        #senha:hover {
+            background-color: yellow;
+            color: black;
+            cursor: grabbing;
+
+        }
+
         #gmail:hover {
-            background-color: red;
+            background-color: blue;
+            color: white;
+            cursor: grabbing;
         }
         
         #sair:hover {
-            background-color: lightgrey;
+            background-color: red;
+            color: black;
+            cursor: grabbing;
         }
 
         @media (max-width: 768px) {
@@ -166,7 +177,7 @@
         function displayGreeting() {
             var username = document.getElementById('username-display').innerText;
             var greeting = document.getElementById('greeting');
-            greeting.innerHTML = 'Olá, ' + username + '! Bem-vindo à sua conta na nossa loja.';
+            greeting.innerHTML = 'Olá, ' + username + '! Bem-vindo à sua conta na nossa loja. Aqui você tem acesso às informações de sua conta e pode contatar nosso suporte.';
         }
 
         function recoverPassword() {
