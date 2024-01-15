@@ -131,7 +131,7 @@ main {
     background-color: #f0f0f0;
 }
 
-#sair {}
+
 
 #carinho {
     position: relative;
@@ -151,8 +151,8 @@ main {
 
 #user-rating {
     position: relative;
-    top: 530px;
-    left: 715px;
+    top: 580px;
+    left: 630px;
     background-color: #fff;
     padding: 15px;
     border-radius: 5px;
@@ -209,6 +209,12 @@ main {
     left: 280px;
     width: 80px;
     cursor: pointer;
+}
+
+#logo {
+    position: absolute;
+    top: 1300px;
+    left: 630px;
 }
 
 
