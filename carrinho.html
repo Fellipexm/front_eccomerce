@@ -14,7 +14,7 @@
         <h1>Carrinho de Compras 🛒 </h1>
         <ul id="carrinho-list"></ul>
         <button onclick="compareSelected()">Comprar</button>
-        <button onclick="deleteSelected()" id="excluir">Excluir</button>
+        <button onclick="confirmDelete()" id="excluir">Excluir</button>
         <p id="totalPrice">Total : R$0.00</p>
     </div>
 
@@ -62,6 +62,14 @@
         }
 
         function compareSelected() {
+            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+            const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+            if (carrinhoItens.length === 0) {
+                alert("Seu carrinho está vazio. Adicione itens antes de comprar.");
+                return;
+            }
+
             const checkboxes = document.querySelectorAll('.compare-checkbox');
             const selectedItemsIndexes = [];
 
@@ -72,18 +80,37 @@
                 }
             });
 
-            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-            let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
-
             selectedItemsIndexes.sort((a, b) => b - a);
 
+            const itemsToMoveToUserPage = [];
+
             selectedItemsIndexes.forEach(index => {
+                const selectedItem = carrinhoItens[index];
+                itemsToMoveToUserPage.push(selectedItem);
                 carrinhoItens.splice(index, 1);
             });
 
             localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
 
             updateTotalPrice();
+
+            localStorage.setItem('itemsToMoveToUserPage', JSON.stringify(itemsToMoveToUserPage));
+
+            alert("Parabéns pela sua compra!");
+        }
+
+        function confirmDelete() {
+            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
+            const carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
+
+            if (carrinhoItens.length === 0) {
+                alert("Seu carrinho está vazio. Não há itens para excluir.");
+                return;
+            }
+
+            if (confirm("Você tem certeza que deseja excluir os itens marcados?")) {
+                deleteSelected();
+            }
         }
 
         function deleteSelected() {
@@ -129,80 +156,6 @@
             const totalPriceElement = document.getElementById("totalPrice");
             totalPriceElement.textContent = `Total: R$${totalPrice.toFixed(2)}`;
         }
-
-        function compareSelected() {
-            const checkboxes = document.querySelectorAll('.compare-checkbox');
-            const selectedItemsIndexes = [];
-
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
-                    checkbox.parentElement.remove();
-                }
-            });
-
-            const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-            let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
-
-            selectedItemsIndexes.sort((a, b) => b - a);
-
-            selectedItemsIndexes.forEach(index => {
-                carrinhoItens.splice(index, 1);
-            });
-
-            localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
-
-            updateTotalPrice();
-
-            alert("Parabéns pela sua compra!");
-        }
-
-        function confirmDelete() {
-            // Confirmação antes de excluir os itens marcados
-            if (confirm("Você tem certeza que deseja excluir os itens marcados?")) {
-                deleteSelected();
-            }
-        }
-
-
-
-        function compareSelected() {
-    const checkboxes = document.querySelectorAll('.compare-checkbox');
-    const selectedItemsIndexes = [];
-
-    checkboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-            selectedItemsIndexes.push(parseInt(checkbox.dataset.index));
-            checkbox.parentElement.remove();
-        }
-    });
-
-    const storedCarrinhoItens = localStorage.getItem('carrinhoItens');
-    let carrinhoItens = storedCarrinhoItens ? JSON.parse(storedCarrinhoItens) : [];
-
-    selectedItemsIndexes.sort((a, b) => b - a);
-
-    const itemsToMoveToUserPage = [];
-
-    selectedItemsIndexes.forEach(index => {
-        const selectedItem = carrinhoItens[index];
-        itemsToMoveToUserPage.push(selectedItem);
-        carrinhoItens.splice(index, 1);
-    });
-
-    localStorage.setItem('carrinhoItens', JSON.stringify(carrinhoItens));
-
-    updateTotalPrice();
-
-    // Armazena temporariamente os itens na localStorage para acessá-los na página "usuario.html"
-    localStorage.setItem('itemsToMoveToUserPage', JSON.stringify(itemsToMoveToUserPage));
-
-    // Redireciona para usuario.html após a compra
-    alert("Parabéns pela sua compra!");
- 
-}
-
-
     </script>
 
     <style>
@@ -274,11 +227,12 @@
             color: #fff;
             cursor: pointer;
         }
-          
+
         #excluir {
             background-color: red;
             color: black;
         }
+
         #totalPrice {
             font-weight: bold;
             margin-top: 10px;
@@ -291,7 +245,6 @@
                 width: 100%;
             }
         }
-        
     </style>
 </body>
 
