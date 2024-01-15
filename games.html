@@ -76,7 +76,6 @@
         }
 
         .card h2 {
-
             margin-bottom: 10px;
             max-height: 90px;
             overflow: hidden;
@@ -154,10 +153,26 @@
         .rating-section input:checked~label:before {
             color: gold;
         }
+
+        #loading {
+            display: none;
+            font-size: 20px;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+        }
     </style>
 </head>
 
 <body>
+    <div id="loading" class="loading">Carregando...</div>
+
     <div class="container">
         <h1>Jogos da Game Store</h1>
         <div class="filters">
@@ -177,9 +192,19 @@
         let carrinhoItens = [];
 
         document.addEventListener("DOMContentLoaded", function () {
+            showLoading(true);
             loadGames();
             updateCartDisplay();
         });
+
+        function showLoading(isLoading) {
+            const loadingElement = document.getElementById("loading");
+            if (isLoading) {
+                loadingElement.style.display = "block";
+            } else {
+                loadingElement.style.display = "none";
+            }
+        }
 
         function loadGames() {
             const gameListContainer = document.getElementById("gameList");
@@ -197,6 +222,7 @@
                         loadSavedRatings();
                         displayGames(games);
                         fillCategoryDropdown(games);
+                        showLoading(false);
                     } else {
                         console.error("Erro ao carregar os jogos. Código de status: " + xhr.status);
                     }

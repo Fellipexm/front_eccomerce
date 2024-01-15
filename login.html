@@ -23,7 +23,10 @@
             <label for="gmail" style="color: black;">Gmail:</label>
             <input type="email" id="gmail" required>
 
-            <button type="submit" id="submitBtn" style="background-color: #FFD700; cursor: not-allowed;" disabled>Entrar</button>
+            <button type="submit" id="submitBtn" style="background-color: #FFD700; cursor: not-allowed;" disabled>
+                <span id="loadingSpinner" style="display: none;">Carregando...</span>
+                Entrar
+            </button>
         </form>
         
         <p style="text-align: center; margin-top: 10px;">
@@ -133,7 +136,9 @@
             var gmail = document.getElementById('gmail').value;
 
             if (fullName !== "" && password !== "" && gmail !== "") {
+                toggleLoading(true);
                 await checkUserInDatabase(fullName, password, gmail);
+                toggleLoading(false);
             } else {
                 alert("Preencha todos os campos.");
             }
@@ -190,10 +195,20 @@
             }
         }
 
-        
+        function toggleLoading(isLoading) {
+            var loadingSpinner = document.getElementById('loadingSpinner');
+            var submitBtn = document.getElementById('submitBtn');
 
-
-        
+            if (isLoading) {
+                loadingSpinner.style.display = 'inline-block';
+                submitBtn.style.backgroundColor = '#C0C0C0';
+                submitBtn.style.cursor = 'not-allowed';
+                submitBtn.disabled = true;
+            } else {
+                loadingSpinner.style.display = 'none';
+                validateForm();
+            }
+        }
     </script>
 </body>
 

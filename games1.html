@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +12,19 @@
             margin: 20px;
             background-color: #f4f4f4;
         }
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         #games-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 20px;
         }
+
         .game-card {
             border: none;
             border-radius: 8px;
@@ -33,9 +37,11 @@
             transition: transform 0.3s;
             overflow: hidden;
         }
+
         .game-card:hover {
             transform: translateY(-5px);
         }
+
         img {
             max-width: 100%;
             height: auto;
@@ -43,19 +49,23 @@
             margin-bottom: 10px;
             object-fit: cover;
         }
+
         h2 {
             font-size: 1.4em;
             color: #333;
             margin-bottom: 10px;
         }
+
         p {
             color: #555;
             line-height: 1.4;
         }
+
         strong {
             font-weight: bold;
             color: #333;
         }
+
         .buy-button {
             display: block;
             width: 100%;
@@ -70,33 +80,42 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         .buy-button:hover {
             background-color: #555;
         }
-        
+
         #filter-container {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .filter-label {
             margin-right: 10px;
             font-weight: bold;
             color: #333;
         }
+
         .filter-input {
             padding: 8px;
             margin: 0 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        
-       
+
+        #loadingSpinner {
+            color: #333;
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
         /* Estilos responsivos para dispositivos móveis */
         @media only screen and (max-width: 600px) {
             .game-card {
                 max-width: 100%;
             }
+
             .filter-input {
                 width: 80%;
                 margin: 0 10%;
@@ -104,6 +123,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <h1>Lista de Jogos</h1>
@@ -114,63 +134,67 @@
         <label for="filter-category" class="filter-label">Categoria:</label>
         <input type="text" id="filter-category" class="filter-input" oninput="filterGames()">
     </div>
-    
+
     <div id="games-container"></div>
-    
+    <div id="loadingSpinner">Carregando Games...</div>
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         var gamesData;
         const conversionRate = 5.3; // Replace with the actual conversion rate
-    
+
         $(document).ready(function () {
+            $("#loadingSpinner").show();
             $.get("https://api-ecomerce-3iqr.onrender.com/games", function (data) {
                 gamesData = data;
                 filterGames();
+                $("#loadingSpinner").hide();
             });
         });
-    
+
         function filterGames() {
             var filterName = $("#filter-name").val().toLowerCase();
             var filterCategory = $("#filter-category").val().toLowerCase();
-    
+
             var filteredGames = gamesData.filter(function (game) {
                 var lowerCaseNome = game.nome_do_jogo.toLowerCase();
                 var lowerCaseCategoria = game.categoria.toLowerCase();
-    
+
                 return lowerCaseNome.includes(filterName) && lowerCaseCategoria.includes(filterCategory);
             });
-    
+
             displayGames(filteredGames);
         }
-    
+
         function displayGames(games) {
             $("#games-container").empty();
-    
+
             games.forEach(function (game) {
                 displayGame(game);
             });
         }
-    
+
         function displayGame(game) {
             const priceInBRL = (game.valor * conversionRate).toFixed(2);
-    
+
             var gameCard = '<div class="game-card">' +
-                                '<img src="' + game.imagem + '" alt="' + game.nome_do_jogo + '">' +
-                                '<h2>' + game.nome_do_jogo + '</h2>' +
-                                '<p>' + game.descricao + '</p>' +
-                                '<p><strong>Categoria:</strong> ' + game.categoria + '</p>' +
-                                '<p><strong>Valor:</strong> R$' + priceInBRL + '</p>' +
-                                '<a href="login.html"><button class="buy-button" onclick="showAlert()">Comprar</button></a>' +
-                            '</div>';
-    
+                '<img src="' + game.imagem + '" alt="' + game.nome_do_jogo + '">' +
+                '<h2>' + game.nome_do_jogo + '</h2>' +
+                '<p>' + game.descricao + '</p>' +
+                '<p><strong>Categoria:</strong> ' + game.categoria + '</p>' +
+                '<p><strong>Valor:</strong> R$' + priceInBRL + '</p>' +
+                '<a href="login.html"><button class="buy-button" onclick="showAlert()">Comprar</button></a>' +
+                '</div>';
+
             var $gameCard = $(gameCard);
             $("#games-container").append($gameCard);
         }
-    
+
         window.showAlert = function () {
             alert('Para continuar comprando, é necessário realizar o login!');
         };
     </script>
-    
-    </body>
-    </html>
+
+</body>
+
+</html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Game Store</title>
-     <link rel="icon" href="logo1.png">
+    <link rel="icon" href="logo1.png">
 </head>
+
 <body>
 
     <div class="login-container">
@@ -22,6 +24,7 @@
             <input type="password" id="senha" name="senha" required>
 
             <button type="button" onclick="enviarDados()">Gravar Dados</button>
+            <span id="loadingSpinner" style="display: none;">Carregando...</span>
         </form>
 
         <p style="text-align: center; margin-top: 10px;">
@@ -97,6 +100,11 @@
         a:hover {
             text-decoration: underline;
         }
+
+        #loadingSpinner {
+            color: #333;
+            display: none;
+        }
     </style>
 
     <script>
@@ -111,6 +119,9 @@
                 senha: senha
             };
 
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            loadingSpinner.style.display = 'inline-block';
+
             fetch('https://users-93jf.onrender.com/api/gravar-dados', {
                 method: 'POST',
                 headers: {
@@ -118,16 +129,20 @@
                 },
                 body: JSON.stringify(data)
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao gravar dados.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao gravar dados.');
+                })
+                .finally(() => {
+                    loadingSpinner.style.display = 'none';
+                });
         }
     </script>
 
 </body>
+
 </html>
