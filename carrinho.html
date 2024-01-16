@@ -70,6 +70,20 @@
                 return;
             }
 
+            const checkboxes = document.querySelectorAll('.compare-checkbox');
+            let atLeastOneChecked = false;
+
+            checkboxes.forEach((checkbox) => {
+                if (checkbox.checked) {
+                    atLeastOneChecked = true;
+                }
+            });
+
+            if (!atLeastOneChecked) {
+                alert("Selecione pelo menos um item antes de comprar.");
+                return;
+            }
+
             const email = prompt("Por favor, digite seu e-mail:");
             const phoneNumber = prompt("Por favor, digite seu número de telefone:");
             const address = prompt("Por favor, digite seu endereço de entrega:");
@@ -179,101 +193,94 @@
         }
     </script>
 
-
-
-</body>
-
-</html>
-
-
-<style>
-    body {
-        background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
-        font-family: 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    h1 {
-        color: #333;
-    }
-
-    #carrinho-list {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .cart-item {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 20px;
-        padding: 20px;
-        text-align: center;
-        background-color: #fff;
-        transition: transform 0.3s ease-in-out;
-        width: 200px;
-        display: inline-block;
-        vertical-align: top;
-    }
-
-    .cart-item:hover {
-        transform: scale(1.05);
-    }
-
-    .compare-checkbox {
-        margin-bottom: 10px;
-    }
-
-    .item-info {
-        margin-bottom: 10px;
-    }
-
-    .cart-item img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-
-    button {
-        margin-top: 20px;
-        padding: 10px;
-        border: none;
-        background-color: #007bff;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    #excluir {
-        background-color: red;
-        color: black;
-    }
-
-    #totalPrice {
-        font-weight: bold;
-        margin-top: 10px;
-        position: relative;
-        top: 30px;
-    }
-
-    @media screen and (max-width: 600px) {
-        .cart-item {
-            width: 100%;
+    <style>
+        body {
+            background: linear-gradient(to right, lightblue 50%, lightgreen 50%);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
         }
-    }
-</style>
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #carrinho-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .cart-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+            background-color: #fff;
+            transition: transform 0.3s ease-in-out;
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .cart-item:hover {
+            transform: scale(1.05);
+        }
+
+        .compare-checkbox {
+            margin-bottom: 10px;
+        }
+
+        .item-info {
+            margin-bottom: 10px;
+        }
+
+        .cart-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #excluir {
+            background-color: red;
+            color: black;
+        }
+
+        #totalPrice {
+            font-weight: bold;
+            margin-top: 10px;
+            position: relative;
+            top: 30px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .cart-item {
+                width: 100%;
+            }
+        }
+    </style>
 </body>
 
 </html>
