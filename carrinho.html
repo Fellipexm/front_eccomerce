@@ -84,10 +84,21 @@
                 return;
             }
 
-            const email = prompt("Por favor, digite seu e-mail:");
-            const phoneNumber = prompt("Por favor, digite seu número de telefone:");
-            const address = prompt("Por favor, digite seu endereço de entrega:");
-            const cpf = prompt("Por favor, digite seu CPF:");
+            let email;
+            do {
+                email = prompt("Por favor, digite seu e-mail (deve ser do tipo @gmail):");
+            } while (!email || !email.toLowerCase().endsWith('@gmail'));
+
+            let phoneNumber;
+            do {
+                phoneNumber = prompt("Por favor, digite seu número de telefone (com DDD e 9 dígitos):");
+            } while (!phoneNumber || !/^\d{2}\d{9}$/.test(phoneNumber));
+
+            let address = prompt("Por favor, digite seu endereço de entrega:");
+            let cpf;
+            do {
+                cpf = prompt("Por favor, digite seu CPF (deve conter 11 dígitos):");
+            } while (!cpf || !/^\d{11}$/.test(cpf));
 
             if (email && phoneNumber && address && cpf) {
                 processOrder(email, phoneNumber, address, cpf);
