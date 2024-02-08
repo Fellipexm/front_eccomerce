@@ -16,18 +16,13 @@
         }
 
         .container {
-          
             max-width: 1710px;
-             margin: 0 auto;
+            margin: 0 auto;
             padding: 20px;
-            background-color:whitesmoke;
+            background-color: whitesmoke;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-        }
-
-        h1 {
-            color: #333;
         }
 
         .filters {
@@ -111,49 +106,12 @@
             top: 20px;
             right: 0px;
             width: 70px;
-
-        }
-
-        h1 {
-            font-family: 'Minecraftia', sans-serif;
-            color: black;
-        }
-
-
-
-
-        @media screen and (max-width: 600px) {
-            body {
-                background-color: aqua;
-                color: black;
-            }
-
-            label,
-            input#filterInput,
-            select#categoryFilter {
-                width: 100%;
-            }
-
-            h1 {
-                color: #333;
-                font-family: 'Minecraft Regular', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            }
-
-            .card {
-                width: 100%;
-                height: 830px;
-                background-color: lightblue;
-                border-radius: 10px;
-            }
-
-            h1 {
-                color: #333;
-                font-family: 'Minecraft Regular', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            }
         }
 
         .rating-section {
             margin-top: 10px;
+            display: flex;
+            flex-direction: row-reverse;
         }
 
         .rating-section input {
@@ -330,8 +288,8 @@
                     const starLabel = document.createElement("label");
                     starLabel.htmlFor = `star-${gameData.id}-${i}`;
 
-                    ratingSection.appendChild(starInput);
                     ratingSection.appendChild(starLabel);
+                    ratingSection.appendChild(starInput);
                 }
 
                 card.appendChild(title);
