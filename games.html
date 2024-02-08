@@ -14,7 +14,7 @@
             margin: 0;
             padding: 0;
         }
-
+        
         .container {
             max-width: 1710px;
             margin: 0 auto;
@@ -24,7 +24,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
+        
         .filters {
             max-width: 1100px;
             display: flex;
@@ -34,7 +34,7 @@
             margin-left: auto;
             margin-right: auto;
         }
-
+        
         label {
             font-size: 16px;
             margin-right: 10px;
@@ -42,7 +42,7 @@
             flex: 1 1 100%;
             margin-bottom: 10px;
         }
-
+        
         input#filterInput,
         select#categoryFilter {
             flex: 1 1 100%;
@@ -53,14 +53,14 @@
             border: 1px solid #555;
             cursor: grab;
         }
-
+        
         .card-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
             gap: 20px;
         }
-
+        
         .card {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -69,28 +69,28 @@
             text-align: center;
             background-color: #fff;
             transition: transform 0.3s ease-in-out;
-            width: calc(25% - 20px);
+            width: calc(50% - 20px); /* Alterado para 50% para dispositivos móveis */
             box-sizing: border-box;
             overflow: hidden;
         }
-
+        
         .card h2 {
             margin-bottom: 10px;
             max-height: 90px;
             overflow: hidden;
         }
-
+        
         .card p {
             max-height: 80px;
             overflow: hidden;
         }
-
+        
         .card img {
             max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
-
+        
         button.add-to-cart-button {
             background-color: blue;
             color: #fff;
@@ -100,38 +100,38 @@
             border-radius: 5px;
             margin-top: 10px;
         }
-
+        
         #carin {
             position: fixed;
             top: 20px;
             right: 0px;
             width: 70px;
         }
-
+        
         .rating-section {
             margin-top: 10px;
             display: flex;
             flex-direction: row-reverse;
         }
-
+        
         .rating-section input {
             display: none;
         }
-
+        
         .rating-section label {
             font-size: 24px;
             color: #555;
             cursor: pointer;
         }
-
+        
         .rating-section label:before {
             content: '★';
         }
-
+        
         .rating-section input:checked~label:before {
             color: gold;
         }
-
+        
         #loading {
             display: none;
             font-size: 20px;
@@ -145,6 +145,14 @@
             height: 100%;
             z-index: 9999;
         }
+        
+        /* Media Query para dispositivos móveis */
+        @media screen and (max-width: 768px) {
+            .card {
+                width: calc(100% - 20px); /* Alterado para 100% para dispositivos móveis */
+            }
+        }
+        
     </style>
 </head>
 
